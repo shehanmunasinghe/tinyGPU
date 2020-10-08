@@ -21,7 +21,7 @@ module regfile (rna,rnb,rnc,d,wn,we,clk,qa,qb,qc,DR,AR); 					// 16x16 regfile
 	assign qc =  register[rnc]; 														// read port C
 	
 	assign DR =  register[rna]; 														// read port DR
-	assign AR =  register[rna]; 														// read port AR
+	assign AR =  register[4'b1111]; 														// read port AR
 	
 	always @(posedge clk) 																// write port
 		

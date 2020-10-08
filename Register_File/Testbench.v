@@ -31,13 +31,20 @@ module testbench ();
 	always
 #1000000 begin
 				if (count==16'h0008)
+					begin
 					we <= 1'b0 ;
+					rna <= 4'b0011 ;
+					count <= count + 1'b1 ;
+					end
 					
 				else if (count==16'h000F)
 					$stop ;
 				
 				else if (count==16'h000A)
+					begin
 					rna <= 4'b0010 ;
+					count <= count + 1'b1 ;
+					end
 					
 				else 
 					begin

@@ -16,7 +16,7 @@ module testbench ();
 	
 	wire[15:0] qa ;								// read port A
 	wire[15:0] qb ;								// read port B
-	wire[15:0] qc ;								// read port B
+	wire[15:0] qc ;								// read port C
 	wire[15:0] DR ;								// read port DR
 	wire[15:0] AR ;								// read port AR
 	
@@ -25,8 +25,10 @@ module testbench ();
 	regfile regfile_test(rna,rnb,rnc,d,wn,we,clock,qa,qb,qc,DR,AR) ;
 	
 	//Clock
-	always
+	always begin
 		#(clk_period/2) clock <= !clock;
+	end
+		
 		
 	always
 #1000000 begin
@@ -56,13 +58,14 @@ module testbench ();
 				
 			end
 			
-	initial
-		begin
-			$dumpfile("dump.vcd");
-			$dumpvars(0);
-		end
+	initial begin
+		$dumpfile("dump.vcd");
+		$dumpvars(0);
+	end
 		
-	initial
+	initial begin
 		#1000000000 $stop;
+	end
+		
 endmodule 
 	

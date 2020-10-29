@@ -1,0 +1,72 @@
+#R0     is
+#R1	    i
+#R2	    j
+#R3	    k
+#R4	    L
+#R5	    M
+#R6	    N
+#R7	    A
+#R8	    B
+#R9	    C
+#R10	temp
+#R11	Aij
+#R12	Bjk
+#R13	T1
+#R14	T2
+#R15 	T3
+
+#Load L,M,N,A,B,C
+LOADI R4 2 #L
+LOADI R5 3 #M
+LOADI R6 2 #N
+LOADI R7 0 #A
+LOADI R8 6 #B
+LOADI R9 12 #C
+
+CLEAR R0        #is=0
+L1: NOP
+
+    LOADC R1 THRD_ID    #i=THRD_ID
+    ADD R1 R1 R0        #i=THRD_ID+is   #R1<=R1+R0
+    
+    CLEAR R3    #k=0
+    L2: NOP
+        SETP LT R1 R4   #if i<L
+        IF_P ENDIF1
+            CLEAR R10
+
+            CLEAR R2
+            L3: MUL R15 R5 R1   #R15<=M*i
+                ADD R15 R15 R2  #R15+=j
+                ADD R15 R15 R7  #R15+=A
+                LOAD R11 R15     #R11=M[A+M*i+j] #Loading Aij
+
+                MUL R15 R6 R2   #R15<=N*j
+                ADD R15 R15 R3  #R15+=k
+                ADD R15 R15 R8  #R15+=B
+                LOAD R12 R15     #R12=M[B+N*j+k] #Loading Bjk
+
+                MAD R10 R11 R12
+                
+                MUL R15 R6 R1   #R15<=N*i
+                ADD R15 R15 R3  #R15+=k
+                ADD R15 R15 R9  #R15+=C
+                STORE R10 R15     #R10=>>M[C+N*i+k] #Storing Cik
+
+                INC R2
+                SETP LT R2 R5
+                WHILE_P L3
+            ENDWHILE            
+        ENDIF1: ENDIF
+
+        INC R3
+        SETP LT R3 R6
+        WHILE_P L2
+    ENDWHILE
+
+    LOADI R13 4
+    ADD R0 R0 R13   #R0+=4
+    SETP LT R0 R4
+    WHILE_P L1
+ENDWHILE
+

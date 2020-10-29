@@ -1,9 +1,10 @@
-LOADC R0 THRD_ID
-LOAD R5 R0
+LOADC R0 THRD_ID        
+LOAD R5 R0      #R5<= M[THRD_ID]
 
 LOADI R7 25
 LOADI R11 10
 
+#Begin first loop
 CLEAR R10
 L1: NOP
 

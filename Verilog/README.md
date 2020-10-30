@@ -1,6 +1,3 @@
-# tinyGPU
-
-
 ## Instructions for using Icarus Verilog
 
 

@@ -8,7 +8,7 @@ module pc (
     input [`INSTMEM_ADDR_WIDTH-1:0] I,
     input reset );
 
-    always @(posedge clk) begin
+    always @(posedge clk or posedge reset) begin
         if (reset) begin
             Address<=0;
         end

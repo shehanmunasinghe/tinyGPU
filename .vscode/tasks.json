@@ -1,0 +1,61 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "type": "shell",
+            "label": "IcarusVerilog - Compile",
+            "osx":{
+                "command": "iverilog",
+                "args": [              
+                  "-o",
+                  "${fileDirname}/${fileBasenameNoExtension}.vvp",
+                  "${file}"
+                ]
+            },  
+            "windows":{
+                "command": "iverilog",
+                "args": [              
+                  "-o",
+                  "${fileDirname}\\${fileBasenameNoExtension}.vvp",
+                  "${file}"
+                ]
+            },            
+            "options": {
+              "cwd": "${fileDirname}"//"${workspaceFolder}"
+            },
+            // "problemMatcher": ["$gcc"],
+            // "group": {
+            //   "kind": "build",
+            //   "isDefault": true
+            // },
+            "problemMatcher":[]
+          },
+
+
+          {
+            "type": "shell",
+            "label": "IcarusVerilog - Simulate",
+            "osx":{
+                "command": "vvp",
+                "args": [              
+                  "${fileDirname}/${fileBasenameNoExtension}.vvp",              
+                ]
+            },  
+            "windows":{
+                "command": "vvp",
+                "args": [              
+                  "${fileDirname}\\${fileBasenameNoExtension}.vvp",              
+                ]
+            },            
+            "options": {
+              "cwd": "${fileDirname}"//"${workspaceFolder}"
+            },
+            "group": {
+              "kind": "build",
+              "isDefault": true
+            },
+            "dependsOn": "IcarusVerilog - Compile",
+            "problemMatcher":[]
+          }
+    ]
+}

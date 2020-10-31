@@ -1,4 +1,4 @@
-`include "constants.v"
+`include "../constants.v"
 `include "instmem.v"
 
 `timescale 1ns/10ps

@@ -1,4 +1,4 @@
-`include "constants.v"
+`include "../constants.v"
 
 module instmem(input     clk,
            input  [`INSTMEM_ADDR_WIDTH-1:0]   Address, 

@@ -1,12 +1,11 @@
-`include "../../constants.v"
+// `include "../../constants.v"
 
 module pc (
-    input clk,
+    input clk, input reset
     output reg [`INSTMEM_ADDR_WIDTH-1:0]   Address,
     input incPC,
     input loadFromI,
-    input [`INSTMEM_ADDR_WIDTH-1:0] I,
-    input reset );
+    input [`INSTMEM_ADDR_WIDTH-1:0] I     );
 
     always @(posedge clk or posedge reset) begin
         if (reset) begin

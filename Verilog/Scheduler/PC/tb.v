@@ -22,7 +22,7 @@ module testbench ();
     reg reset;
 
     //module PC
-    pc PC(clk,AR,incPC,loadFromI,I ,reset);
+    pc PC(clk,reset, AR,incPC,loadFromI,I);
 
 
 

@@ -49,7 +49,7 @@ Reg={
 
 Constants = {
     'CORE_ID':b(1), 'THRD_ID':b(1),#Same as CORE_ID. Will be removed in future
-    'CORE_NMBR':b(2),
+    'N_CORES':b(2),
 }
 
 SetPCond = {

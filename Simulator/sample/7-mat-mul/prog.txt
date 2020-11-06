@@ -64,8 +64,8 @@ L1: NOP
         WHILE_P L2
     ENDWHILE
 
-    LOADI R13 4
-    ADD R0 R0 R13   #R0+=4
+    LOADC R13 N_CORES       #Number of SP_Cores
+    ADD R0 R0 R13           #R0+=N_CORES #is+=N_CORES
     SETP LT R0 R4
     WHILE_P L1
 ENDWHILE

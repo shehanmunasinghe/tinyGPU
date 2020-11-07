@@ -1,4 +1,16 @@
-## Instructions for using Icarus Verilog
+# Verilog Modules
+
+## Register File
+
+![regfile](../docs/images/regfile.png "regfile")
+
+
+
+
+
+
+
+# Instructions for using Icarus Verilog
 
 
 Compilation

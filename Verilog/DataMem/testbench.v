@@ -1,3 +1,5 @@
+`include "datamem.v"
+
 `timescale 1ns/10ps
 
 module testbench ();

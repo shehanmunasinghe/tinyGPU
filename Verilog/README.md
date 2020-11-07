@@ -4,6 +4,10 @@
 
 ![regfile](../docs/images/regfile.png "regfile")
 
+## SPCore
+
+![SPCore](../docs/images/SPCore.png "SPCore")
+
 
 
 

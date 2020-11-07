@@ -15,11 +15,12 @@ module testbench ();
     reg reset;
     reg [`N_CORES - 1:0] d;
     wire [`N_CORES - 1:0] q;
+    wire all_true,all_false;
 
     reg push; reg pop; reg comp;
     
     //module PC
-    pstack PStack(clk,reset,d,q,push,pop,comp);
+    pstack PStack(clk,reset,d,q,push,pop,comp,all_true,all_false);
 
     //test
     initial begin
@@ -30,6 +31,7 @@ module testbench ();
         #50 d=10; push=1; #20 push=0;
         #55 d=3; push=1; #20 push=0;
         #50 d=7; push=1; #20 push=0;
+        #50 d=0; push=1; #20 push=0;
         #5 d=0;
 
         #50 comp=1; #20; comp=0;
@@ -44,7 +46,7 @@ module testbench ();
     end    
 
     initial begin
-        $monitor("monitor q=%b  @ %0t", q,  $time);
+        $monitor("monitor q=%b all_true=%b all_false=%b  @ %0t", q,all_true,all_false,  $time);
         
         $dumpfile("dump.vcd");
         $dumpvars(0);

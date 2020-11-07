@@ -1,5 +1,7 @@
 module regfile (
 	input clk,
+	input Reset	); 		//reset
+
 
 	input [3:0] nA, 		// reg # of read port A
 	input [3:0] nB, 		// reg # of read port B
@@ -12,7 +14,6 @@ module regfile (
 	input [15:0] D,	// data to write
 
 	input RegWE,		// write enable
-	input Reset	); 		//reset
 	
 	reg [15:0] register [0:15]  ; 	// 16 16-bit registers
 		

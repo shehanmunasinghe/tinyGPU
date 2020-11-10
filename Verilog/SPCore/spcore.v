@@ -17,7 +17,7 @@ module spcore (
     output  [15:0]  addr,
     input   [15:0]  data_in,
 
-    input en,
+    input en, //control signal to enable/disable the core
     input reg_we,
     input [3:0] aluc,
     input [1:0] s2      );   
@@ -27,11 +27,15 @@ module spcore (
     wire [15:0] A,B,C,D;
     wire [15:0] alu_out; wire P;
 
+    wire clk_i;
+
     //modules
-    regfile RegFile(clk,reset, x,y,z,x, A,B,C,D, reg_we);
+    regfile RegFile(clk_i,reset, x,y,z,x, A,B,C,D, reg_we);
     alu ALU(A,B,C,aluc,alu_out,P);
     mux3x16 MuxD(I,data_in,alu_out,s2,D);
     //    
-
+    assign data_out = A;
+    assign addr     = B;
+    assign clk_i    = clk && en; //enable/disbale the core
 
 endmodule

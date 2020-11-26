@@ -12,6 +12,22 @@
 //No of Cores
 `define N_CORES 4 //No of cores
 
-
 //PStack
 `define STACK_DEPTH 3 //2^3 = 8 locations in stack
+
+
+//ALU Controls
+`define ALUC_CLEAR  0
+`define ALUC_INC    1
+`define ALUC_ADD    2
+`define ALUC_MUL    3
+`define ALUC_MAD    4
+`define ALUC_EQ     5
+`define ALUC_LT     6
+`define ALUC_GT     7
+`define ALUC_NEQ    8
+
+//MuxD
+`define MuxD_fromI      0
+`define MuxD_fromMem    1
+`define MuxD_fromALU    2

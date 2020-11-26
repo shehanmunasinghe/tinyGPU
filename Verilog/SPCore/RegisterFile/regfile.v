@@ -25,7 +25,7 @@ module regfile (
 	
 	integer i;
 
-	always @(posedge clk) 	
+	always @(posedge clk or posedge Reset) 	
 		
 		if (Reset)
 			for (i = 1; i < 16; i = i + 1)

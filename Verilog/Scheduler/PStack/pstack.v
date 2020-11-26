@@ -16,7 +16,7 @@ module pstack (
 	reg [`STACK_DEPTH - 1:0] ptr;
 	reg [`N_CORES - 1:0] stack [((1 << `STACK_DEPTH) - 1) :0];
 
-	always @(posedge clk) begin
+	always @(posedge clk or posedge reset) begin
 		if (reset) begin
 			ptr = 0;
             stack[ptr] = ((1 << `N_CORES) - 1);

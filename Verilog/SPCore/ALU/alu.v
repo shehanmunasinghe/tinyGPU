@@ -15,9 +15,9 @@ module alu(
             4'b0001:                    //INC 
                 ALU_OUT <= A + 1;
             4'b0010:                    //ADD
-                ALU_OUT <= A + B;
+                ALU_OUT <= B + C;
             4'b0011:                    //MUL
-                ALU_OUT <= A * B;
+                ALU_OUT <= B * C;
             4'b0100:                    //MAD
                 ALU_OUT <= A + (B*C);
             4'b0101:                    //SETP EQ

@@ -189,6 +189,40 @@ module spcore_tb;
 			#20
 			$display("R[0]=%d R[1]=%d R[2]=%d R[3]=%d",SPCore.RegFile.register[0],SPCore.RegFile.register[1], SPCore.RegFile.register[2], SPCore.RegFile.register[3]);
 
+		/*
+			R[x] <=0				//CLEAR
+		*/
+		//Inputs (Source Operand Read Cycle)
+			x=3;
+			reg_we=0;#20
+		//Controls
+			//1: (Execution Cycle)
+			aluc = `ALUC_CLEAR;
+			s2= `MuxD_fromALU;
+			reg_we=0;			
+			#20
+			//2: (Write-Back Cycle)
+			reg_we=1;
+			#20
+			$display("R[0]=%d R[1]=%d R[2]=%d R[3]=%d",SPCore.RegFile.register[0],SPCore.RegFile.register[1], SPCore.RegFile.register[2], SPCore.RegFile.register[3]);
+
+
+		/*
+			R[x] <= R[x] + 1		//INC
+		*/
+		//Inputs (Source Operand Read Cycle)
+			x=3;
+			reg_we=0;#20
+		//Controls
+			//1: (Execution Cycle)
+			aluc = `ALUC_INC;
+			s2= `MuxD_fromALU;
+			reg_we=0;			
+			#20
+			//2: (Write-Back Cycle)
+			reg_we=1;
+			#20
+			$display("R[0]=%d R[1]=%d R[2]=%d R[3]=%d",SPCore.RegFile.register[0],SPCore.RegFile.register[1], SPCore.RegFile.register[2], SPCore.RegFile.register[3]);
 
 
 		// 	// #40

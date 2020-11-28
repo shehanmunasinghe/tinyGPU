@@ -50,201 +50,170 @@ module spcore_tb;
 	initial begin
 
 		#10 //Delay for Reset
-		aluc= `ALUC_CLEAR;
+		// aluc= `ALUC_CLEAR;
 
 		
-		/*
+		/****************************************
 			R[x] <= Immediate			//LOADI
-		*/
-		//Inputs (Source Operand Read Cycle)
-			x=0; I=11;#20
-			reg_we=0;#20
-		//Controls
-			//1: (Write-Back Cycle)
+		****************************************/
+		//Inputs
+			x=0; I=11;
+		//1: Source Operand Read Cycle
 			s2= `MuxD_fromI ;
-			aluc=`ALUC_CLEAR;
 			reg_we=1;
-			#20
-		
-		
-		/*
-			R[x] <= Immediate			//LOADI
-		*/		
-		//Inputs (Source Operand Read Cycle)
-			x=1; I=20;#20
-			reg_we=0;#20
-		//Controls
-			//1: (Write-Back Cycle)
-			s2= `MuxD_fromI ;
-			aluc=`ALUC_CLEAR;
-			reg_we=1;
-			#20
+			#20			
 
-			$display("R[0]=%d R[1]=%d R[2]=%d",SPCore.RegFile.register[0],SPCore.RegFile.register[1], SPCore.RegFile.register[2]);
 		
-		/*
+		/****************************************
+			R[x] <= Immediate			//LOADI
+		****************************************/
+		//Inputs
+			x=1; I=20;
+		//1: Source Operand Read Cycle
+			s2= `MuxD_fromI ;
+			reg_we=1;
+			#20	
+
+		$display("R[0]=%d R[1]=%d R[2]=%d",SPCore.RegFile.register[0],SPCore.RegFile.register[1], SPCore.RegFile.register[2]);
+		
+		/****************************************
 			R[x] <= R[y] + R[z]		//ADD
-		*/
-		//Inputs (Source Operand Read Cycle)
-			x=2;y=0;z=1;#20
-			reg_we=0;#20
-		//Controls
-			//1: (Execution Cycle)
+		****************************************/
+		//Inputs 
+			x=2;y=0;z=1;
+		//1: ID,EXE
 			aluc = `ALUC_ADD;
 			s2= `MuxD_fromALU;
 			reg_we=0;			
-			#20
-			//2: (Write-Back Cycle)
+			#20			
+		//2: WB
 			reg_we=1;
 			#20
 
-			$display("R[0]=%d R[1]=%d R[2]=%d",SPCore.RegFile.register[0],SPCore.RegFile.register[1], SPCore.RegFile.register[2]);
+		$display("R[0]=%d R[1]=%d R[2]=%d",SPCore.RegFile.register[0],SPCore.RegFile.register[1], SPCore.RegFile.register[2]);
 
-		/*
+		/****************************************
 			R[x]<=R[x] + R[y]*R[z] 	//MAD
-		*/
-		//Inputs (Source Operand Read Cycle)
+		****************************************/
+		//Inputs
 			x=2;y=0;z=1;
-			reg_we=0;#20
-		//Controls
-			//1: (Execution Cycle)			
+		//1: ID,EXE
 			s2= `MuxD_fromALU;
 			aluc = `ALUC_MAD;
 			reg_we=0;						
-			#20
-			//2: (Write-Back Cycle)			 
+			#20				
+		//2: WB
 			reg_we=1;
 			#20
-			$display("R[0]=%d R[1]=%d R[2]=%d",SPCore.RegFile.register[0],SPCore.RegFile.register[1], SPCore.RegFile.register[2]);
+			
+		$display("R[0]=%d R[1]=%d R[2]=%d",SPCore.RegFile.register[0],SPCore.RegFile.register[1], SPCore.RegFile.register[2]);
 
 
-		/*
+		/****************************************
 			R[x] <= R[y] + R[z]		//ADD
-		*/
-		//Inputs (Source Operand Read Cycle)
+		****************************************/
+		//Inputs
 			x=2;y=0;z=1;
-			reg_we=0;#20
-		//Controls
-			//1: (Execution Cycle)
+		//1: ID,EXE
 			aluc = `ALUC_ADD;
 			s2= `MuxD_fromALU;
 			reg_we=0;			
 			#20
-			//2: (Write-Back Cycle)
+		//2: WB
 			reg_we=1;
 			#20
-			$display("R[0]=%d R[1]=%d R[2]=%d R[3]=%d",SPCore.RegFile.register[0],SPCore.RegFile.register[1], SPCore.RegFile.register[2], SPCore.RegFile.register[3]);
+			
+		$display("R[0]=%d R[1]=%d R[2]=%d R[3]=%d",SPCore.RegFile.register[0],SPCore.RegFile.register[1], SPCore.RegFile.register[2], SPCore.RegFile.register[3]);
 
 
 
-		/*
+		/****************************************
 			R[x] <= R[y] * R[z]		//MUL
-		*/
-		//Inputs (Source Operand Read Cycle)
+		****************************************/
+		//Inputs
 			x=2;y=0;z=1;
-			reg_we=0;#20
-		//Controls
-			//1: (Execution Cycle)
+		//1: ID,EXE
 			aluc = `ALUC_MUL;
 			s2= `MuxD_fromALU;
 			reg_we=0;			
-			#20
-			//2: (Write-Back Cycle)
+			#20			
+		//2: WB
 			reg_we=1;
 			#20
-			$display("R[0]=%d R[1]=%d R[2]=%d R[3]=%d",SPCore.RegFile.register[0],SPCore.RegFile.register[1], SPCore.RegFile.register[2], SPCore.RegFile.register[3]);
+
+		$display("R[0]=%d R[1]=%d R[2]=%d R[3]=%d",SPCore.RegFile.register[0],SPCore.RegFile.register[1], SPCore.RegFile.register[2], SPCore.RegFile.register[3]);
 
 
-		/*
+		/****************************************
 			R[x] <= CORE_ID			//LOADC
-		*/
-		//Inputs (Source Operand Read Cycle)
+		****************************************/
+		//Inputs
 			x=3;z=1;
-			reg_we=0;#20
-		//Controls
-			//1: (Execution Cycle)
+		//1: ID,EXE
 			aluc = `ALUC_CORE_ID;
 			s2= `MuxD_fromALU;
 			reg_we=0;			
 			#20
-			//2: (Write-Back Cycle)
+		//2: WB
 			reg_we=1;
 			#20
-			$display("R[0]=%d R[1]=%d R[2]=%d R[3]=%d",SPCore.RegFile.register[0],SPCore.RegFile.register[1], SPCore.RegFile.register[2], SPCore.RegFile.register[3]);
+			
+		$display("R[0]=%d R[1]=%d R[2]=%d R[3]=%d",SPCore.RegFile.register[0],SPCore.RegFile.register[1], SPCore.RegFile.register[2], SPCore.RegFile.register[3]);
 
-		/*
-			R[x] <= N_CORES			//LOADC
-		*/
-		//Inputs (Source Operand Read Cycle)
-			x=3;z=1;
-			reg_we=0;#20
-		//Controls
-			//1: (Execution Cycle)
-			aluc = `ALUC_N_CORES;
-			s2= `MuxD_fromALU;
-			reg_we=0;			
-			#20
-			//2: (Write-Back Cycle)
-			reg_we=1;
-			#20
-			$display("R[0]=%d R[1]=%d R[2]=%d R[3]=%d",SPCore.RegFile.register[0],SPCore.RegFile.register[1], SPCore.RegFile.register[2], SPCore.RegFile.register[3]);
 
-		/*
+		/****************************************
 			R[x] <=0				//CLEAR
-		*/
-		//Inputs (Source Operand Read Cycle)
+		****************************************/
+		//Inputs
 			x=3;
-			reg_we=0;#20
-		//Controls
-			//1: (Execution Cycle)
+		//1: ID,EXE
 			aluc = `ALUC_CLEAR;
 			s2= `MuxD_fromALU;
 			reg_we=0;			
 			#20
-			//2: (Write-Back Cycle)
+		//2: WB
 			reg_we=1;
 			#20
-			$display("R[0]=%d R[1]=%d R[2]=%d R[3]=%d",SPCore.RegFile.register[0],SPCore.RegFile.register[1], SPCore.RegFile.register[2], SPCore.RegFile.register[3]);
+
+		$display("R[0]=%d R[1]=%d R[2]=%d R[3]=%d",SPCore.RegFile.register[0],SPCore.RegFile.register[1], SPCore.RegFile.register[2], SPCore.RegFile.register[3]);
 
 
-		/*
+		/****************************************
 			R[x] <= R[x] + 1		//INC
-		*/
-		//Inputs (Source Operand Read Cycle)
+		****************************************/
+		//Inputs
 			x=3;
-			reg_we=0;#20
-		//Controls
-			//1: (Execution Cycle)
+		//1: ID,EXE
 			aluc = `ALUC_INC;
 			s2= `MuxD_fromALU;
 			reg_we=0;			
 			#20
-			//2: (Write-Back Cycle)
+		//2: WB
 			reg_we=1;
 			#20
-			$display("R[0]=%d R[1]=%d R[2]=%d R[3]=%d",SPCore.RegFile.register[0],SPCore.RegFile.register[1], SPCore.RegFile.register[2], SPCore.RegFile.register[3]);
+
+		$display("R[0]=%d R[1]=%d R[2]=%d R[3]=%d",SPCore.RegFile.register[0],SPCore.RegFile.register[1], SPCore.RegFile.register[2], SPCore.RegFile.register[3]);
 
 	
-		/*
+		/****************************************
 			P <= (R[x] op R[y])		//SETP
-		*/
-		//Inputs (Source Operand Read Cycle)
+		****************************************/
+		//Inputs
 			x=1;y=1;
-			reg_we=0;#20
-		//Controls
-			//1: (Execution Cycle)
-			aluc = `ALUC_NEQ;
+		//1: ID,EXE
+			aluc = `ALUC_EQ;
 			// s2= `MuxD_fromALU;//Not used
 			reg_we=0;			
 			#20
-			$display("R[0]=%d R[1]=%d R[2]=%d R[3]=%d ALU.P=%d ",SPCore.RegFile.register[0],SPCore.RegFile.register[1], SPCore.RegFile.register[2], SPCore.RegFile.register[3], SPCore.ALU.P);
+
+		$display("R[0]=%d R[1]=%d R[2]=%d R[3]=%d ALU.P=%d ",SPCore.RegFile.register[0],SPCore.RegFile.register[1], SPCore.RegFile.register[2], SPCore.RegFile.register[3], SPCore.ALU.P);
 
 
 
 
-		/*
+		/****************************************
 			M[R[y]] <= R[x]			//STORE
-		*/
+		****************************************/
 		//Inputs
 			// x=2;y=0;
 		//Controls
@@ -252,7 +221,7 @@ module spcore_tb;
 			// aluc = `ALUC_ADD;
 			// reg_we=1;
 			// mem_we ://TODO
-			#20
+			// #20
 
 			$finish;
 

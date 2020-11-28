@@ -224,8 +224,22 @@ module spcore_tb;
 			#20
 			$display("R[0]=%d R[1]=%d R[2]=%d R[3]=%d",SPCore.RegFile.register[0],SPCore.RegFile.register[1], SPCore.RegFile.register[2], SPCore.RegFile.register[3]);
 
+	
+		/*
+			P <= (R[x] op R[y])		//SETP
+		*/
+		//Inputs (Source Operand Read Cycle)
+			x=1;y=1;
+			reg_we=0;#20
+		//Controls
+			//1: (Execution Cycle)
+			aluc = `ALUC_NEQ;
+			// s2= `MuxD_fromALU;//Not used
+			reg_we=0;			
+			#20
+			$display("R[0]=%d R[1]=%d R[2]=%d R[3]=%d ALU.P=%d ",SPCore.RegFile.register[0],SPCore.RegFile.register[1], SPCore.RegFile.register[2], SPCore.RegFile.register[3], SPCore.ALU.P);
 
-		// 	// #40
+
 
 
 		/*

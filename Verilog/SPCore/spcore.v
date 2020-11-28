@@ -2,7 +2,8 @@
 `include "RegisterFile/regfile.v"
 `include "Mux/mux3x16.v"
 
-module spcore (
+module spcore
+    #(parameter CORE_ID=0, parameter N_CORES=1) (
     input               clk,
     input               reset,
 
@@ -31,7 +32,11 @@ module spcore (
 
     //modules
     regfile RegFile(clk_i,reset, x,y,z,x, A,B,C,D, reg_we);
+
     alu ALU(A,B,C,aluc,alu_out,P);
+    defparam ALU.CORE_ID = CORE_ID;
+	defparam ALU.N_CORES = N_CORES;
+
     mux3x16 MuxD(I,data_in,alu_out,s2,D);
     //    
     assign data_out = A;

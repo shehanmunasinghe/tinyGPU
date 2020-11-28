@@ -28,9 +28,12 @@ module spcore_tb;
 	wire [15:0] addr;
 
 
-
+	//Instantiate SPCore
 	spcore SPCore(clk,reset,x,y,z,I,P,data_out,addr,data_in,en,reg_we,aluc,s2);
-	
+	defparam SPCore.CORE_ID = 100;
+	defparam SPCore.N_CORES = 200;
+	// defparam SPCore.ALU.CORE_ID = 100;
+	// defparam SPCore.ALU.N_CORES = 200;
 
 
 	//Clock
@@ -150,6 +153,42 @@ module spcore_tb;
 			reg_we=1;
 			#20
 			$display("R[0]=%d R[1]=%d R[2]=%d R[3]=%d",SPCore.RegFile.register[0],SPCore.RegFile.register[1], SPCore.RegFile.register[2], SPCore.RegFile.register[3]);
+
+
+		/*
+			R[x] <= CORE_ID			//LOADC
+		*/
+		//Inputs (Source Operand Read Cycle)
+			x=3;z=1;
+			reg_we=0;#20
+		//Controls
+			//1: (Execution Cycle)
+			aluc = `ALUC_CORE_ID;
+			s2= `MuxD_fromALU;
+			reg_we=0;			
+			#20
+			//2: (Write-Back Cycle)
+			reg_we=1;
+			#20
+			$display("R[0]=%d R[1]=%d R[2]=%d R[3]=%d",SPCore.RegFile.register[0],SPCore.RegFile.register[1], SPCore.RegFile.register[2], SPCore.RegFile.register[3]);
+
+		/*
+			R[x] <= N_CORES			//LOADC
+		*/
+		//Inputs (Source Operand Read Cycle)
+			x=3;z=1;
+			reg_we=0;#20
+		//Controls
+			//1: (Execution Cycle)
+			aluc = `ALUC_N_CORES;
+			s2= `MuxD_fromALU;
+			reg_we=0;			
+			#20
+			//2: (Write-Back Cycle)
+			reg_we=1;
+			#20
+			$display("R[0]=%d R[1]=%d R[2]=%d R[3]=%d",SPCore.RegFile.register[0],SPCore.RegFile.register[1], SPCore.RegFile.register[2], SPCore.RegFile.register[3]);
+
 
 
 		// 	// #40

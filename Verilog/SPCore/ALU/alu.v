@@ -1,4 +1,5 @@
-module alu(
+module alu
+    #(parameter CORE_ID=0, parameter N_CORES=1) (
     input [15:0] A,
     input [15:0] B,
     input [15:0] C,
@@ -40,6 +41,10 @@ module alu(
                     P <= 1'b1;
                 else
                     P <= 1'b0;
+            4'b1001:                    //CORE_ID 
+                ALU_OUT <= CORE_ID;
+            4'b1010:                    //N_CORES 
+                ALU_OUT <= N_CORES;
             default: begin
                     ALU_OUT <= ALU_OUT;
                     P <= P;

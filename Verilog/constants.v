@@ -17,15 +17,17 @@
 
 
 //ALU Controls
-`define ALUC_CLEAR  0
-`define ALUC_INC    1
-`define ALUC_ADD    2
-`define ALUC_MUL    3
-`define ALUC_MAD    4
-`define ALUC_EQ     5
-`define ALUC_LT     6
-`define ALUC_GT     7
-`define ALUC_NEQ    8
+`define ALUC_CLEAR      0
+`define ALUC_INC        1
+`define ALUC_ADD        2
+`define ALUC_MUL        3
+`define ALUC_MAD        4
+`define ALUC_EQ         5
+`define ALUC_LT         6
+`define ALUC_GT         7
+`define ALUC_NEQ        8
+`define ALUC_CORE_ID    9
+`define ALUC_N_CORES    10
 
 //MuxD
 `define MuxD_fromI      0

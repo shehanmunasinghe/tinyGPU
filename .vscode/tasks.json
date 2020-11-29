@@ -31,6 +31,38 @@
             "problemMatcher":[]
           },
 
+          {
+            "type": "shell",
+            "label": "IcarusVerilog(SV2005) - Compile",
+            "osx":{
+                "command": "iverilog",
+                "args": [       
+                  "-g2005-sv",       
+                  "-o",
+                  "${fileDirname}/${fileBasenameNoExtension}.vvp",
+                  "${file}"                  
+                ]
+            },  
+            "windows":{
+                "command": "iverilog",
+                "args": [     
+                  "-g2005-sv",         
+                  "-o",
+                  "${fileDirname}\\${fileBasenameNoExtension}.vvp",
+                  "${file}"
+                ]
+            },            
+            "options": {
+              "cwd": "${fileDirname}"//"${workspaceFolder}"
+            },
+            // "problemMatcher": ["$gcc"],
+            // "group": {
+            //   "kind": "build",
+            //   "isDefault": true
+            // },
+            "problemMatcher":[]
+          },
+
 
           {
             "type": "shell",
@@ -54,7 +86,8 @@
               "kind": "build",
               "isDefault": true
             },
-            "dependsOn": "IcarusVerilog - Compile",
+            // "dependsOn": "IcarusVerilog - Compile",
+            "dependsOn": "IcarusVerilog(SV2005) - Compile",
             "problemMatcher":[]
           }
     ]

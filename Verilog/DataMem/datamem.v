@@ -1,9 +1,13 @@
-module datamem(input     clk, MemWrite,
-           input  [15:0]   Address, 
-           input  [15:0]  WriteData,
-           output [15:0]  ReadData);
+`ifndef INC_CONSTANTS
+`include "../constants.v"
+`endif
 
-    reg  [15:0] RAM[63:0]; //8bit x 64 locations
+module datamem(input     clk, MemWrite,
+           input  [`DATAMEM_ADDR_WIDTH-1:0]   Address, 
+           input  [`DATA_WORD_LENGTH-1:0]  WriteData,
+           output [`DATA_WORD_LENGTH-1:0]  ReadData);
+
+    reg  [`DATA_WORD_LENGTH-1:0] RAM[`DATAMEM_N_LOCATIONS-1:0]; //8bit x 64 locations
 
     // Memory Initialization 
     initial begin
@@ -11,12 +15,12 @@ module datamem(input     clk, MemWrite,
     end
 
     // Memory Read  
-    assign ReadData = RAM[Address[5:0]]; 
+    assign ReadData = RAM[Address[`DATAMEM_ADDR_WIDTH_TRUNC-1:0]]
 
     // Memory Write  
     always @(posedge clk) begin
         if (MemWrite)
-                RAM[Address[5:0]] <= WriteData;
+                RAM[Address[`DATAMEM_ADDR_WIDTH_TRUNC-1:0]] <= WriteData;
     end
 
 endmodule

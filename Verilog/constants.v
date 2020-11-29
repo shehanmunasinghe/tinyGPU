@@ -1,21 +1,38 @@
-//Clock
-`define CLK_PERIOD 20
+`define INC_CONSTANTS 1
 
-//Instruction Memory
+/***********************************/
+/****   Instruction Memory       **/
+
+/***********************************/
 `define INST_LENGTH 32 //Each instruction is 32bit long
 `define INSTMEM_ADDR_WIDTH 16 //16bit address
 
+//64=2^6 
+// INSTMEM_N_LOCATIONS=2^INSTMEM_ADDR_WIDTH_TRUNC
 `define INSTMEM_N_LOCATIONS 64 //TODO - Increase this accordingly
 `define INSTMEM_ADDR_WIDTH_TRUNC 6 //TODO - Increase this accordingly
+/*---------------------------------*/
 
+/***********************************/
+/****   Data Memory              **/
+/***********************************/
+`define DATA_WORD_LENGTH 16 //Each data word is 16bit long
+`define DATAMEM_ADDR_WIDTH 16 //16bit address
 
-//No of Cores
-`define N_CORES 4 //No of cores
+`define DATAMEM_N_LOCATIONS 64 //TODO - Increase this accordingly
+`define DATAMEM_ADDR_WIDTH_TRUNC 6 //TODO - Increase this accordingly
+/*---------------------------------*/
 
+/***********************************/
+/****    Scheduler                **/
+/***********************************/
 //PStack
 `define STACK_DEPTH 3 //2^3 = 8 locations in stack
+/*---------------------------------*/
 
-
+/***********************************/
+/****    SPCore                   **/
+/***********************************/
 //ALU Controls
 `define ALUC_CLEAR      0
 `define ALUC_INC        1
@@ -33,3 +50,23 @@
 `define MuxD_fromI      0
 `define MuxD_fromMem    1
 `define MuxD_fromALU    2
+/*---------------------------------*/
+
+
+/***********************************/
+/****    SMCore                   **/
+/***********************************/
+
+//No of Cores
+`define N_CORES 4 //No of cores
+
+/*---------------------------------*/
+
+
+
+/***********************************/
+/****    Other                    **/
+/***********************************/
+//Clock
+`define CLK_PERIOD 20
+/*---------------------------------*/

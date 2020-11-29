@@ -1,4 +1,6 @@
+`ifndef INC_CONSTANTS
 `include "../constants.v"
+`endif
 
 module instmem(input     clk,
            input  [`INSTMEM_ADDR_WIDTH-1:0]   Address, 

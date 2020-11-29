@@ -15,7 +15,7 @@ module datamem(input     clk, MemWrite,
     end
 
     // Memory Read  
-    assign ReadData = RAM[Address[`DATAMEM_ADDR_WIDTH_TRUNC-1:0]]
+    assign ReadData = RAM[Address[`DATAMEM_ADDR_WIDTH_TRUNC-1:0]];
 
     // Memory Write  
     always @(posedge clk) begin

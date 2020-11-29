@@ -11,7 +11,8 @@ module datamem(input     clk, MemWrite,
 
     // Memory Initialization 
     initial begin
-        $readmemh("data_hex.txt",RAM);
+        // $readmemh("data_hex.txt",RAM);
+        $readmemh(`DATAMEM_FILEPATH,RAM);
     end
 
     // Memory Read  

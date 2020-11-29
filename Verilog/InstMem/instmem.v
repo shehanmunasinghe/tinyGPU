@@ -11,7 +11,8 @@ module instmem(input     clk,
     // Memory Initialization 
     initial begin
         // $readmemh("prog_hex.txt",RAM);
-        $readmemb("/Users/shehan/Documents/GitHubProjects/tinyGPU/Verilog/InstMem/prog_bin.txt",RAM);
+        // $readmemb("/Users/shehan/Documents/GitHubProjects/tinyGPU/Verilog/InstMem/prog_bin.txt",RAM);
+        $readmemb(`INSTMEM_FILEPATH,RAM);
     end
 
     // Memory Read  

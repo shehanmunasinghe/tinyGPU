@@ -38,8 +38,11 @@ module testbench ();
     wire   [15:0]  data_from_mem;
     wire wren;
 
+    wire memclk;
+    assign memclk=~clk;
+
     //Instantiate modules
-    datamem DMem(clk,wren,addr_mem,data_to_mem,data_from_mem);
+    datamem DMem(memclk,wren,addr_mem,data_to_mem,data_from_mem);
     MemoryController MemController(
         clk,reset, 
         MRead, MWrite, MReady,
@@ -88,6 +91,11 @@ module testbench ();
         en[1] = 1;
         en[2] = 1;
         en[3] = 1;
+
+        addr[0] = 15'd20;
+        addr[1] = 15'd21;
+        addr[2] = 15'd22;
+        addr[3] = 15'd23;
         
         /////////
         MRead   = 0;

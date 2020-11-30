@@ -21,7 +21,7 @@ module MemoryController(
     output reg  [15:0]  data_to_mem,
     output  reg [15:0]  addr_mem,
     input   [15:0]  data_from_mem,
-    output  reg wren
+    output   wren
     
 );
 
@@ -105,18 +105,18 @@ function automatic RW();
     addr_mem=addr[idx];
     if (RW_Operation==0) begin//Read
         q[idx] = data_from_mem;
-        wren = 0;
+        // wren = 0;
     end else begin //Write
         $display("MWrite [%d]",idx);
         data_to_mem = data[idx];
-        wren = 1;
+        // wren = 1;
     end
     
     return 1'b1;
 endfunction
+assign wren = RW_Operation;
 
 //----FSM------
-// assign wren = RW_Operation;
 // assign data_to_mem = data[idx];
 // assign q[idx] = data_from_mem;
 
@@ -134,7 +134,8 @@ always @(posedge clk) begin
         //if all false readyState=1;
         if (all_false) begin
             readyState=1;
-            MReady=1;            
+            MReady=1;
+            RW_Operation=0;            
         end
         else begin
             readyState =1'b0;   
@@ -149,6 +150,7 @@ always @(posedge clk) begin
         if (all_false) begin
             readyState=1;
             MReady=1;
+            RW_Operation=0;
             
         end
         else begin

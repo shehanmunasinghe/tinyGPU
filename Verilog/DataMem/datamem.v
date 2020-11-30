@@ -19,7 +19,8 @@ module datamem(input     clk, MemWrite,
     assign ReadData = RAM[Address[`DATAMEM_ADDR_WIDTH_TRUNC-1:0]];
 
     // Memory Write  
-    always @(negedge clk) begin
+    // always @(negedge clk) begin
+    always @(posedge clk) begin
         if (MemWrite) begin
             RAM[Address[`DATAMEM_ADDR_WIDTH_TRUNC-1:0]] <= WriteData;
             $display("Writing to DataMemory ADDR %d",Address);

@@ -63,7 +63,8 @@
 /***********************************/
 
 //No of Cores
-`define N_CORES 4 //No of cores
+`define N_CORES_LOG 2
+`define N_CORES 4 //2**N_CORES_LOG   //4//No of cores
 
 /*---------------------------------*/
 

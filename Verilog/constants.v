@@ -1,3 +1,4 @@
+//To know whether constants has been included. If not will use local definitions inside modules.
 `define INC_CONSTANTS 1
 
 /***********************************/
@@ -12,7 +13,7 @@
 `define INSTMEM_N_LOCATIONS 64 //TODO - Increase this accordingly
 `define INSTMEM_ADDR_WIDTH_TRUNC 6 //TODO - Increase this accordingly
 
-`define INSTMEM_FILEPATH "/Users/shehan/Documents/GitHubProjects/tinyGPU/Verilog/InstMem/prog_bin.txt"
+`define INSTMEM_FILEPATH "/Users/shehan/Documents/GitHubProjects/tinyGPU/Verilog/Modules/InstructionMemory/prog_bin.txt"
 /*---------------------------------*/
 
 /***********************************/
@@ -24,7 +25,7 @@
 `define DATAMEM_N_LOCATIONS 64 //TODO - Increase this accordingly
 `define DATAMEM_ADDR_WIDTH_TRUNC 6 //TODO - Increase this accordingly
 
-`define DATAMEM_FILEPATH "/Users/shehan/Documents/GitHubProjects/tinyGPU/Verilog/DataMem/data_hex.txt"
+`define DATAMEM_FILEPATH "/Users/shehan/Documents/GitHubProjects/tinyGPU/Verilog/Modules/DataMemory/data_hex.txt"
 
 /*---------------------------------*/
 

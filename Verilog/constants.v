@@ -13,7 +13,9 @@
 `define INSTMEM_N_LOCATIONS 64 //TODO - Increase this accordingly
 `define INSTMEM_ADDR_WIDTH_TRUNC 6 //TODO - Increase this accordingly
 
-`define INSTMEM_FILEPATH "/Users/shehan/Documents/GitHubProjects/tinyGPU/Verilog/Modules/InstructionMemory/prog_bin.txt"
+`ifndef INC_CONSTANTS_LOCAL
+    `define INSTMEM_FILEPATH "PleaseSpecifyAFilePath"
+`endif
 /*---------------------------------*/
 
 /***********************************/
@@ -25,8 +27,9 @@
 `define DATAMEM_N_LOCATIONS 64 //TODO - Increase this accordingly
 `define DATAMEM_ADDR_WIDTH_TRUNC 6 //TODO - Increase this accordingly
 
-`define DATAMEM_FILEPATH "/Users/shehan/Documents/GitHubProjects/tinyGPU/Verilog/Modules/DataMemory/data_hex.txt"
-
+`ifndef INC_CONSTANTS_LOCAL
+    `define DATAMEM_FILEPATH "PleaseSpecifyAFilePath"
+`endif
 /*---------------------------------*/
 
 /***********************************/

@@ -1,4 +1,11 @@
 
+############ Custom ##################################################################
+# Local constants - eg:filepaths
+Verilog/constants_local.v
+
+#######################################################################################
+#######################################################################################
+
 # Created by https://www.toptal.com/developers/gitignore/api/macos,windows,visualstudiocode,jupyternotebooks,python
 # Edit at https://www.toptal.com/developers/gitignore?templates=macos,windows,visualstudiocode,jupyternotebooks,python
 

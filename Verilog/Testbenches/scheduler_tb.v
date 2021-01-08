@@ -1,3 +1,4 @@
+`include "../constants_local.v"
 `include "../constants.v"
 
 `include "../Modules/InstructionMemory/InstructionMemory.v"

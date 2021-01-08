@@ -43,6 +43,7 @@
 /****    SPCore                   **/
 /***********************************/
 //ALU Controls
+`define ALUC_X          0 //Don't care state
 `define ALUC_CLEAR      0
 `define ALUC_INC        1
 `define ALUC_ADD        2
@@ -56,6 +57,7 @@
 `define ALUC_N_CORES    10
 
 //MuxD
+`define MuxD_X          0 //Don't care state
 `define MuxD_fromI      0
 `define MuxD_fromMem    1
 `define MuxD_fromALU    2

@@ -23,7 +23,21 @@ module Scheduler (
     output    [3:0]                        x,
     output    [3:0]                        y,
     output    [3:0]                        z,
-    output   [15:0]                        I );    //TODO add inputs/outputs to SP-Core, Memory, etc   
+    output   [15:0]                        I,
+    
+    output      reg_we,
+    output      [3:0] aluc,
+    output      [1:0] s2,  
+
+    output      MRead,
+    output      MWrite,
+    input       MReady,
+
+    output  [`N_CORES-1:0] mask,
+    input   [`N_CORES-1:0] p
+
+    
+    );    //TODO add inputs/outputs to SP-Core, Memory, etc   
 
 
 

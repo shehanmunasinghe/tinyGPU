@@ -8,6 +8,7 @@ The design is implemented in Verilog HDL and the assembly programs are simulated
 
 ![regfile](docs/images/blocks.png "blocks")
 
+The ISA and Datapath can be found in the following [Google Sheet](https://docs.google.com/spreadsheets/d/1yPLuM_zCF1IhVchUTxWPucX_xoV9kUbVz8zwBgPuInc/edit#gid=853810905)
 ## ISA
 //TODO
 

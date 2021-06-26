@@ -4,7 +4,7 @@ The inidividual RTL modules developed for this project are as follows and they a
 
 1. SM Core
 	1. Scheduler
-		1. [[Verilog/Modules/SMCore/Scheduler/CU/README|Control Unit]]
+		1. [Control Unit](./Verilog/Modules/SMCore/Scheduler/CU/README.md)
 		2. Program Counter
 		3. PStack
 	1. SP Core 

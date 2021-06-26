@@ -12,7 +12,12 @@ The ISA and Datapath can be found in the following [Google Sheet](https://docs.g
 ## ISA
 //TODO
 
+
 ## Datapath
-//TODO
+
+//TODO\
+
+The information of the  [[Verilog/README|inidividual modules]] can be found here
+
 
 

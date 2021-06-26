@@ -1,0 +1,92 @@
+{
+  "main": {
+    "id": "927759c5ce25e675",
+    "type": "split",
+    "children": [
+      {
+        "id": "881db340b608456a",
+        "type": "leaf",
+        "state": {
+          "type": "empty",
+          "state": {}
+        }
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "232b278b247b2ae3",
+    "type": "split",
+    "children": [
+      {
+        "id": "fac41956c1043c01",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "9f025ffb27fca667",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {}
+            }
+          },
+          {
+            "id": "4f3b446c628aa46e",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "6891482b60ee1157",
+    "type": "split",
+    "children": [
+      {
+        "id": "6b1756cff94164a2",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "ef70416340d0d6ad",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "active": "881db340b608456a",
+  "lastOpenFiles": [
+    "Verilog/Modules/SMCore/Scheduler/CU/README.md",
+    "Verilog/README.md",
+    "Verilog/Modules/SMCore/Scheduler/CU/Untitled.md",
+    "README.md"
+  ]
+}

@@ -17,7 +17,7 @@ The ISA and Datapath can be found in the following [Google Sheet](https://docs.g
 
 //TODO\
 
-The information of the [Text](<file:///Verilog/README.md>)  can be found here
+The information about the [RTL Modules](./Verilog/README.md)  can be found here
 
 
 

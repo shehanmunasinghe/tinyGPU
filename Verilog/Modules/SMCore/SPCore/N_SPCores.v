@@ -37,7 +37,7 @@ module N_SPCores(
 genvar i;
 generate 
     for ( i=0 ;i<`N_CORES ; i=i+1) begin
-        SPCore spcore_i(clk,reset,x,y,z,I,p[i],data[i],addr[i],q[i],en[i],reg_we,aluc,s2);
+        SPCore #(i,`N_CORES) spcore_i(clk,reset,x,y,z,I,p[i],data[i],addr[i],q[i],en[i],reg_we,aluc,s2);
     end
 endgenerate
 

@@ -13,15 +13,19 @@ OpCode={
     'CLEAR'     :b(4),
     'INC'       :b(5),
 
-    'INC'       :b(6),
-    'ADD'       :b(7),
-    'MUL'       :b(8),
-    'MAD'       :b(9),
+    'ADD'       :b(6),
+    'MUL'       :b(7),
+    'MAD'       :b(8),
 
-    'SETP'       :b(11),
-    'IF_P'       :b(12),
-    'ELSE_P'      :b(13),
-    'ENDIF'       :b(14),
+    'SETP'       :b(9),
+
+    'IF_P'       :b(10),
+    'ELSE_P'      :b(11),
+    'WHILE_P'      :b(12),
+
+    'ENDIF'       :b(13), 'ENDWHILE'       :b(13),
+    
+    'NOP'       :b(14)
 }
 
 Reg={
@@ -44,111 +48,127 @@ Reg={
 }
 
 Constants = {
-    'THRD_ID':b(1)
+    'CORE_ID':b(1), 'THRD_ID':b(1),#Same as CORE_ID. Will be removed in future
+    'N_CORES':b(2),
 }
 
 SetPCond = {
     'EQ'    :b(1),
-    'NEQ'   :b(2) ,
-    'LT'    :b(3),
-    'LTE'   :b(4)
+    'LT'    :b(2) ,
+    'GT'    :b(3),
+    'NEQ'   :b(4)
 }
 
-
-
-def assemble(assembly_code):
+def preprocess_assembly_code(assembly_code):
     assembly_code = assembly_code.splitlines()
 
     line_no=0
-    line_alias={}
+    line_labels={}
 
-    #Line alisas
+    #Line labels
     for line in assembly_code:
-        s = line.strip().split(' ')
-        if not s[0]:
-            continue
-        if s[0][-1]==':':
-            line_alias[s[0][0:-1]]=line_no
+        # s = line.strip().split(' ')
+        s = line.split("#", 1)[0].strip().split(' ')
+        if not s[0]: ##Empty line
+            continue 
+        if s[0][-1]==':': 
+            line_labels[s[0][0:-1]]=line_no
 
         line_no+=1
-    print(line_alias, '\n')
+    # print("line_labels:   ",line_labels, '\n')
 
-    #Assembling
-    machine_code = []
+    #Preprocessing (Removing alias)
+    preprocessd_assembly_code = []
     for line in assembly_code:
-        s = line.strip().split(' ')
+        # s = line.strip().split(' ')
+        s = line.split("#", 1)[0].strip().split(' ')
         if not s[0]:
             continue
         if s[0][-1]==':':
             s=s[1:]
+        # print(s)        
 
-        print(s)        
-        out = decode_instruction(s, line_alias)
-        machine_code.append(out)
+        inst = s[0]
+        if inst == 'IF_P' or inst == 'ELSE_P' or inst =='WHILE_P':     #IF_P or ELSE_P
+            out= [inst , line_labels[s[1]] ]
+        else:
+            out = s
 
-    return machine_code
+        preprocessd_assembly_code.append(out)
+
+    return preprocessd_assembly_code
 
 
-
-def decode_instruction(s, line_alias=None):
+def decode_instruction(s):
     out = ''
     inst = s[0]
 
-    # out.append(OpCode[inst])
-    # out+=(OpCode[inst])
-
-    if inst == 'LOAD':     #LOAD        
-        out= OpCode[inst]+ Reg[s[1]] + Reg[s[2]] + b(0) + b(0,16)
-
-    elif inst == 'LOADI':     #LOADI
-        out= OpCode[inst]+ Reg[s[1]] + b(0) + b(0) + b(int(s[2]),16)
-
-    elif inst == 'LOADC':     #LOADC
-        out= OpCode[inst]+ Reg[s[1]] + b(0) + Constants[s[2]] + b(0,16)
-
-    elif inst == 'STORE':     #LOADC      
-        out= OpCode[inst]+ Reg[s[1]] + Reg[s[2]] + b(0) + b(0,16)  
-
-    elif inst == 'CLEAR':     #CLEAR      
-        out= OpCode[inst]+ Reg[s[1]] + b(0) + b(0) + b(0,16) 
-
-    elif inst == 'INC':     #INC      
-        out= OpCode[inst]+ Reg[s[1]] + b(0) + b(0) + b(0,16) 
-
-    elif inst == 'ADD':     #ADD
-        out= OpCode[inst]+ Reg[s[1]] + Reg[s[2]] + Reg[s[3]] + b(0,16)
-    elif inst == 'MUL':     #MUL
-        out= OpCode[inst]+ Reg[s[1]] + Reg[s[2]] + Reg[s[3]] + b(0,16)
-    elif inst == 'MAD':     #MAD
-        out= OpCode[inst]+ Reg[s[1]] + Reg[s[2]] + Reg[s[3]] + b(0,16)
+    ### I Format
+    if inst == 'LOADI':     
+        # LOADI	x _	_	I
+        x=s[1]
+        I=int(s[2])
+        out= OpCode[inst]+ Reg[x] + b(0) + b(0) + b(I,16)
 
 
-    elif inst == 'SETP':     #SETP
-        out= OpCode[inst]+ Reg[s[2]] + Reg[s[3]] + SetPCond[s[1]] + b(0,16)
+    ### L Format
+    elif inst == 'IF_P' or inst == 'ELSE_P' or inst=='WHILE_P':     
+        L = int(s[1])
+        out= OpCode[inst]+ format(0, '012b') + b(L,16) 
 
-    elif inst == 'IF_P':     #IF_P
-        try:            
-            out= OpCode[inst]+ format(0, '012b') + b(line_alias[s[1]],16) 
-        except:
-            out= OpCode[inst]+ format(0, '012b') + b(int(s[1]),16) 
-
-    elif inst == 'ELSE_P':     #ELSE_P
-        try:            
-            out= OpCode[inst]+ format(0, '012b') + b(line_alias[s[1]],16) 
-        except:
-            out= OpCode[inst]+ format(0, '012b') + b(int(s[1]),16) 
-
-
-
-    elif inst == 'ENDIF':     #ENDIF
+    ### R-0  Format
+    elif inst == 'ENDIF' or inst=='ENDWHILE' or inst=='NOP': 
         out= OpCode[inst]+ format(0, '028b') 
 
+    ### R-1  Format
+    elif inst == 'CLEAR' or inst == 'INC':    
+        x=s[1]   
+        out= OpCode[inst]+ Reg[x] + b(0) + b(0) + b(0,16) 
+
+
+    ### R-2  Format
+    elif inst == 'LOAD' or inst == 'STORE':  
+        x = s[1]
+        y = s[2]
+        out= OpCode[inst]+ Reg[x] + Reg[y] + b(0) + b(0,16)
+
+
+    ### R-3  Format
+
+    ## ADD, MUL, MAD
+    elif inst == 'ADD' or inst == 'MUL' or inst == 'MAD':    
+        x=s[1]
+        y=s[2]
+        z=s[3]
+        out= OpCode[inst]+ Reg[x] + Reg[y] + Reg[z] + b(0,16)
+
+    ## LOADC
+    elif inst == 'LOADC':     
+        x=s[1]
+        c=s[2]
+        out= OpCode[inst]+ Reg[x] + b(0) + Constants[c] + b(0,16)
+
+    ## SETP
+    elif inst == 'SETP':     
+        op = s[1]
+        x = s[2] 
+        y = s[3]
+        out= OpCode[inst]+ Reg[x] + Reg[y] + SetPCond[op] + b(0,16)
 
     else:
         raise Exception("Unknown Instruction") 
 
     return out+'\n'
 
+
+
+def assemble(assembly_code_ls):
+    machine_code=[]
+    for s in assembly_code_ls:                
+        print(s)
+        out = decode_instruction(s)
+        machine_code.append(out)
+    return machine_code
 
 
 def test_utils():

@@ -8,6 +8,11 @@
     `include "Mux/Mux3x16.v"
 `endif
 
+`ifndef SPCore
+    `define SPCore 1
+`endif
+
+
 module SPCore
     #(parameter CORE_ID=0, parameter N_CORES=1) (
     input               clk,

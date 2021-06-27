@@ -3,6 +3,9 @@
 	`define N_CORES 4
 `endif
 
+`ifndef PStack
+    `define PStack 1
+`endif
 module PStack (
 	input                    clk,
 	input                    reset,

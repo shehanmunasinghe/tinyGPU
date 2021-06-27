@@ -3,6 +3,10 @@
     `define N_CORES 4//2**N_CORES_LOG  
 `endif
 
+`ifndef MemoryController
+    `define MemoryController 1
+`endif
+
 module MemoryController(
     input clk, 
     input reset, //Active high async reset

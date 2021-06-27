@@ -1,7 +1,13 @@
-`include "SPCore.v"
-
 `ifndef N_CORES
     `define N_CORES 8
+`endif
+
+`ifndef SPCore
+    `include "SPCore.v"
+`endif
+
+`ifndef N_SPCores
+    `define N_SPCores 1
 `endif
 
 module N_SPCores(
@@ -15,13 +21,6 @@ module N_SPCores(
     input [3:0] aluc,
     input [1:0] s2,   
 
-    input MRead,
-    input MWrite,
-    output reg MReady,
-
-    input clk, 
-    input reset,
-
     //N 
     input [`N_CORES-1:0] en,
     output [`N_CORES-1:0] p,
@@ -29,9 +28,11 @@ module N_SPCores(
     //Connections to Memory
     output reg [15:0] addr [`N_CORES-1:0],
     output reg [15:0] data [`N_CORES-1:0],
-    input [15:0]  q[`N_CORES-1:0]
+    input [15:0]  q[`N_CORES-1:0],
 
-);
+    
+    input clk, 
+    input reset );
 
 //Generate for loop to instantiate N times
 genvar i;

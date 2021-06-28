@@ -37,8 +37,8 @@ parameter OPCODE_ENDIF    = 13;
 parameter OPCODE_NOP      = 14;
 
 // States
-parameter STATE_INITIAL = 30;
-parameter STATE_DECODE = 31;
+parameter STATE_FETCH = 31;
+parameter STATE_DECODE = 29;
 
 parameter STATE_LOADI_0    = 1;
 parameter STATE_LOADC_0    = 2;
@@ -138,175 +138,60 @@ module CU (
         
     endfunction 
 
-    //decoder
-    reg [5:0] decoded_state;
-    always @(*) begin
-        case (opcode)
-            OPCODE_LOAD: begin
-                decoded_state=STATE_LOAD_0;
-            end
-            OPCODE_LOADI: begin
-                decoded_state=STATE_LOADI_0;
-            end
-            OPCODE_LOADC: begin
-                decoded_state=STATE_LOADC_0;
-            end
-            OPCODE_STORE: begin
-                decoded_state=STATE_STORE_0;
-            end
-            OPCODE_CLEAR: begin
-                decoded_state=STATE_CLEAR_0;
-            end
-            OPCODE_INC: begin
-                decoded_state=STATE_INC_0;
-            end
-            OPCODE_ADD: begin
-                decoded_state=STATE_ADD_0;
-            end
-            OPCODE_MUL: begin
-                decoded_state=STATE_MUL_0;
-            end
-            OPCODE_MAD: begin
-                decoded_state=STATE_MAD_0;
-            end
-            OPCODE_SETP: begin
-                decoded_state=STATE_SETP_0;
-            end
-            OPCODE_IF_P: begin
-                decoded_state=STATE_IF_P_0;
-            end
-            OPCODE_ELSE_P: begin
-                decoded_state=STATE_ELSE_P_0;
-            end
-            OPCODE_WHILE_P: begin
-                decoded_state=STATE_WHILE_P_0;
-            end
-            OPCODE_ENDIF: begin
-                decoded_state=STATE_ENDIF_0;
-            end
-            OPCODE_NOP: begin
-                decoded_state=STATE_NOP_0;
-            end
 
-            default: begin
-                decoded_state=STATE_INITIAL;
-            end
-        endcase        
-    end
-
-    // always @(posedge clk) begin
-        // if (current_state == STATE_DECODE ) begin
-        //    current_state = decoded_state; //getCurrentState(opcode); 
-        // end
-    // end
-
-
+    //state switching
     always @(posedge clk) begin
-
-        // if (current_state == STATE_DECODE ) begin
-        //    current_state = decoded_state; //getCurrentState(opcode); 
-        // end
                 
         case (current_state)      
 
-            STATE_INITIAL:begin
-                // s2	<= `MuxD_X; aluc	<= `ALUC_EQ; reg_we	= 0; 
-                // MRead<=0; MWrite<=0;
-                // incPC	<= 0; loadFromI <= 0;
-                // pstack_push<=0; pstack_pop<=0; pstack_complement <=0;
-
+            STATE_FETCH:begin
                 current_state <= STATE_DECODE;
             end 
 
             STATE_DECODE:begin
-                // s2	<= `MuxD_X; aluc	<= `ALUC_EQ; reg_we	= 0; 
-                // MRead<=0; MWrite<=0;
-                // incPC	<= 0; loadFromI <= 0;
-                // pstack_push<=0; pstack_pop<=0; pstack_complement <=0;
-
                 current_state <= getCurrentState(opcode);
-                
             end   
 
             STATE_LOADI_0:begin
-                // s2	<= `MuxD_fromI; aluc	<= `ALUC_X; reg_we	= 1;
-                // MRead=0; MWrite=0;
-                // incPC	<= 1; loadFromI <= 0;
-                // pstack_push<=0; pstack_pop<=0; pstack_complement <=0;
-
-                current_state <= STATE_INITIAL;
+                current_state <= STATE_FETCH;
             end
 
             STATE_SETP_0:begin
-                // s2	<= `MuxD_X; aluc	<= `ALUC_EQ; reg_we	= 0; //TODO : Consider other SETP operands - ALUC_EQ, ALUC_LT, ALUC_GT, ALUC_NEQ
-                // MRead<=0; MWrite<=0;
-                // incPC	<= 1; loadFromI <= 0;
-                // pstack_push<=0; pstack_pop<=0; pstack_complement <=0;
-                
-                current_state <= STATE_INITIAL;
+                current_state <= STATE_FETCH;
             end
 
 
             STATE_IF_P_0:begin
-                // pstack_push=1; pstack_pop=0; pstack_complement =0;
-                // if (all_mask_false) begin
-                //     incPC	= 0; loadFromI = 1;
-                // end
-                // else begin
-                //     incPC	= 1; loadFromI = 0;
-                // end
-                // s2	= `MuxD_X; aluc	= `ALUC_X; reg_we	= 0;
-                // MRead=0; MWrite=0;
-
-                current_state <= STATE_INITIAL;
+                current_state <= STATE_FETCH;
             end
 
-/*
-            STATE_ELSE_P_0:begin
-                pstack_push=0; pstack_pop=0; pstack_complement =1;
-                if (all_mask_true) begin
-                    incPC	= 0; loadFromI = 1;
-                end
-                else begin
-                    incPC	= 1; loadFromI = 0;
-                end
-                s2	= `MuxD_X; aluc	= `ALUC_X; reg_we	= 0;
-                MRead=0; MWrite=0;
 
-                next_state = STATE_DECODE; 
+            STATE_ELSE_P_0:begin
+                current_state <= STATE_FETCH; 
             end
 
             STATE_ENDIF_0:begin
-                pstack_push=0; pstack_pop=1; pstack_complement =0;
-                incPC	= 1; loadFromI = 0;
-                s2	= `MuxD_X; aluc	= `ALUC_X; reg_we	= 0;
-                MRead=0; MWrite=0;
-
-                next_state = STATE_DECODE; 
+                  current_state <= STATE_FETCH;
             end
 
             STATE_NOP_0:begin
-                next_state = STATE_NOP_0; //TODO - Exit Simulation?
+                current_state <= STATE_NOP_0; //TODO - Exit Simulation?
             end
-*/
 
-/*
             default:begin
-                s2	<= `MuxD_X; aluc	<= `ALUC_EQ; reg_we	<= 0; 
-                MRead<=0; MWrite<=0;
-                incPC	<= 0; loadFromI <= 0;
-                pstack_push<=0; pstack_pop<=0; pstack_complement <=0;
+                
             end
-*/
+
         endcase
 
         
     end
 
+    // What to do in each state
     always @(*) begin
         case (current_state)      
 
-            STATE_INITIAL:begin
+            STATE_FETCH:begin
                 s2	= `MuxD_X; aluc	= `ALUC_EQ; reg_we	= 0; 
                 MRead=0; MWrite=0;
                 incPC	= 0; loadFromI = 0;
@@ -349,10 +234,9 @@ module CU (
                 end
                 s2	= `MuxD_X; aluc	= `ALUC_X; reg_we	= 0;
                 MRead=0; MWrite=0;
-
             end
 
-/*
+
             STATE_ELSE_P_0:begin
                 pstack_push=0; pstack_pop=0; pstack_complement =1;
                 if (all_mask_true) begin
@@ -363,8 +247,6 @@ module CU (
                 end
                 s2	= `MuxD_X; aluc	= `ALUC_X; reg_we	= 0;
                 MRead=0; MWrite=0;
-
-                next_state = STATE_DECODE; 
             end
 
             STATE_ENDIF_0:begin
@@ -372,15 +254,10 @@ module CU (
                 incPC	= 1; loadFromI = 0;
                 s2	= `MuxD_X; aluc	= `ALUC_X; reg_we	= 0;
                 MRead=0; MWrite=0;
-
-                next_state = STATE_DECODE; 
             end
 
             STATE_NOP_0:begin
-                next_state = STATE_NOP_0; //TODO - Exit Simulation?
             end
-*/
-
 
             default:begin
                 s2	= `MuxD_X; aluc	= `ALUC_EQ; reg_we	= 0; 
@@ -393,12 +270,10 @@ module CU (
         
     end
 
-    // always @(posedge clk) begin
-    //         current_state <= next_state;
-    // end
 
+    //Reset
     always @(posedge reset) begin
-        current_state = STATE_INITIAL;
+        current_state = STATE_FETCH;
         next_state = STATE_DECODE;
     end
 

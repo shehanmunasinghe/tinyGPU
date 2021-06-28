@@ -41,19 +41,28 @@ parameter STATE_FETCH = 31;
 parameter STATE_DECODE = 29;
 
 parameter STATE_LOADI_0    = 1;
-parameter STATE_LOADC_0    = 2;
+
 parameter STATE_LOAD_0     = 0;
+parameter STATE_LOAD_1     = 16;
+
 parameter STATE_STORE_0    = 3;
+parameter STATE_STORE_1    = 17;
+
+parameter STATE_LOADC_0    = 2;
+
 parameter STATE_CLEAR_0    = 4;
 parameter STATE_INC_0      = 5;
 parameter STATE_ADD_0      = 6;
 parameter STATE_MUL_0      = 7;
 parameter STATE_MAD_0      = 8;
+
+
 parameter STATE_SETP_0     = 9;
 parameter STATE_IF_P_0     = 10;
 parameter STATE_ELSE_P_0   = 11;
 parameter STATE_WHILE_P_0  = 12;
 parameter STATE_ENDIF_0    = 13;
+
 parameter STATE_NOP_0      = 14;
 
 module CU (
@@ -178,6 +187,17 @@ module CU (
                 current_state <= STATE_NOP_0; //TODO - Exit Simulation?
             end
 
+            STATE_STORE_0:begin
+                current_state <= STATE_STORE_1;
+            end
+
+            STATE_STORE_1:begin
+                if (MReady) 
+                    current_state <= STATE_FETCH;                
+                else 
+                    current_state <= STATE_STORE_1;
+            end
+
             default:begin
                 
             end
@@ -192,7 +212,7 @@ module CU (
         case (current_state)      
 
             STATE_FETCH:begin
-                s2	= `MuxD_X; aluc	= `ALUC_EQ; reg_we	= 0; 
+                s2	= `MuxD_X; aluc	= `ALUC_X; reg_we	= 0; 
                 MRead=0; MWrite=0;
                 incPC	= 0; loadFromI = 0;
                 pstack_push=0; pstack_pop=0; pstack_complement =0;
@@ -200,7 +220,7 @@ module CU (
             end 
 
             STATE_DECODE:begin
-                s2	= `MuxD_X; aluc	= `ALUC_EQ; reg_we	= 0; 
+                s2	= `MuxD_X; aluc	= `ALUC_X; reg_we	= 0; 
                 MRead=0; MWrite=0;
                 incPC	= 0; loadFromI = 0;
                 pstack_push=0; pstack_pop=0; pstack_complement =0;
@@ -257,10 +277,27 @@ module CU (
             end
 
             STATE_NOP_0:begin
+                s2	= `MuxD_X; aluc	= `ALUC_X; reg_we	= 0; 
+                MRead=0; MWrite=0;
+                incPC	= 0; loadFromI = 0;
+                pstack_push=0; pstack_pop=0; pstack_complement =0;
+            end
+
+            STATE_STORE_0:begin
+                s2	= `MuxD_X; aluc	= `ALUC_X; reg_we	= 0; 
+                MRead=0; MWrite=1;
+                incPC	= 1; loadFromI = 0;
+                pstack_push=0; pstack_pop=0; pstack_complement =0;
+            end
+            STATE_STORE_1:begin
+                s2	= `MuxD_X; aluc	= `ALUC_X; reg_we	= 0; 
+                MRead=0; MWrite=0;
+                pstack_push=0; pstack_pop=0; pstack_complement =0;
+                incPC	= 0; loadFromI = 0; 
             end
 
             default:begin
-                s2	= `MuxD_X; aluc	= `ALUC_EQ; reg_we	= 0; 
+                s2	= `MuxD_X; aluc	= `ALUC_X; reg_we	= 0; 
                 MRead=0; MWrite=0;
                 incPC	= 0; loadFromI = 0;
                 pstack_push=0; pstack_pop=0; pstack_complement =0;

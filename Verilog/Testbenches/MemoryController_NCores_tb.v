@@ -1,3 +1,4 @@
+`include "../constants_local.v"
 `include "../constants.v"
 
 `include "../Modules/DataMemory/DataMemory.v"
@@ -40,6 +41,7 @@ module testbench ();
 
     wire memclk;
     assign memclk=~clk;
+    // assign memclk=clk;
 
     //Instantiate modules
     DataMemory DMem(memclk,wren,addr_mem,data_to_mem,data_from_mem);
@@ -62,7 +64,7 @@ module testbench ();
 
         en[0] = 0;
         en[1] = 1;
-        en[2] = 1;
+        en[2] = 0;
         en[3] = 0;
 
         addr[0] = 15'd10;

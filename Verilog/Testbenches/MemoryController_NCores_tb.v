@@ -128,7 +128,7 @@ module testbench ();
         // $monitor(">> clk=%d inst_addr=%b x=%b y=%b z=%b I=%b  @ %0t", clk_cycle, inst_addr, x,y,z,I,  $time);
 
         // $monitor("next_state= %b  ; idx= %d   ; readyState= %b ",MemController.next_state,MemController.idx,MemController.readyState);
-        $dumpfile("dump.vcd");
+        $dumpfile("dump_MemoryController_NCores_tb.vcd");
 		$dumpvars(0);
 	end
 

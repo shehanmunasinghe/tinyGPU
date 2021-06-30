@@ -17,8 +17,8 @@ module MemoryController(
 
     //Connections to Each Core
     input [`N_CORES-1:0] en,
-    input [15:0] addr [`N_CORES-1:0],
-    input [15:0] data [`N_CORES-1:0],
+    input [15:0] in_addr [`N_CORES-1:0],
+    input [15:0] in_data [`N_CORES-1:0],
     output reg [15:0]  q[`N_CORES-1:0],
 
     //Connections to Memory 
@@ -28,6 +28,10 @@ module MemoryController(
     output   wren
     
 );
+
+// Registers to keep in_addr and in_data unchanged during Read/Write
+reg [15:0] addr [`N_CORES-1:0];
+reg [15:0] data [`N_CORES-1:0];
 
 //----Internal constants----------
 
@@ -111,7 +115,7 @@ function automatic RW();
         q[idx] = data_from_mem;
         // wren = 0;
     end else begin //Write
-        $display("MWrite [%d]",idx);
+        $display("MWrite (Core %d)",idx);
         data_to_mem = data[idx];
         // wren = 1;
     end
@@ -126,7 +130,15 @@ assign wren = RW_Operation;
 
 always @(posedge clk) begin
 
-    if (MRead || MWrite) begin     
+    if (MRead || MWrite) begin    
+        
+        //Save addr, data into internal registers so they don't change during the operation
+        for (int j=0; j<`N_CORES; j=j+1 ) begin
+            addr[j] = in_addr[j];
+            data[j] = in_data[j];
+        end
+
+
         if (MWrite) begin
             RW_Operation=1;
         end else begin

@@ -213,6 +213,22 @@ module CU (
                 current_state <= STATE_FETCH;
             end
 
+            STATE_ADD_0:begin
+                current_state <= STATE_FETCH;
+            end
+
+            STATE_MUL_0:begin
+                current_state <= STATE_FETCH;
+            end
+
+            STATE_INC_0:begin
+                current_state <= STATE_FETCH;
+            end
+
+            STATE_CLEAR_0:begin
+                current_state <= STATE_FETCH;
+            end
+
             default:begin
                 
             end
@@ -318,7 +334,7 @@ module CU (
                 pstack_push=0; pstack_pop=0; pstack_complement =0;
             end
             STATE_LOAD_1:begin
-                s2	= `MuxD_X; aluc	= `ALUC_X; reg_we	= 0; 
+                s2	= `MuxD_fromMem; aluc	= `ALUC_X; reg_we	= 1; 
                 MRead=0; MWrite=0;
                 pstack_push=0; pstack_pop=0; pstack_complement =0;
                 incPC	= 0; loadFromI = 0; 
@@ -326,6 +342,34 @@ module CU (
 
             STATE_LOADC_0:begin
                 s2	= `MuxD_fromALU; aluc	= `ALUC_CORE_ID; reg_we	= 1;
+                MRead=0; MWrite=0;
+                incPC	= 1; loadFromI = 0;
+                pstack_push=0; pstack_pop=0; pstack_complement =0;
+            end
+
+            STATE_ADD_0:begin
+                s2	= `MuxD_fromALU; aluc	= `ALUC_ADD; reg_we	= 1; 
+                MRead=0; MWrite=0;
+                incPC	= 1; loadFromI = 0;
+                pstack_push=0; pstack_pop=0; pstack_complement =0;
+            end
+
+            STATE_MUL_0:begin
+                s2	= `MuxD_fromALU; aluc	= `ALUC_MUL; reg_we	= 1; 
+                MRead=0; MWrite=0;
+                incPC	= 1; loadFromI = 0;
+                pstack_push=0; pstack_pop=0; pstack_complement =0;
+            end
+
+            STATE_INC_0:begin
+                s2	= `MuxD_fromALU; aluc	= `ALUC_INC; reg_we	= 1; 
+                MRead=0; MWrite=0;
+                incPC	= 1; loadFromI = 0;
+                pstack_push=0; pstack_pop=0; pstack_complement =0;
+            end
+
+            STATE_CLEAR_0:begin
+                s2	= `MuxD_fromALU; aluc	= `ALUC_CLEAR; reg_we	= 1; 
                 MRead=0; MWrite=0;
                 incPC	= 1; loadFromI = 0;
                 pstack_push=0; pstack_pop=0; pstack_complement =0;

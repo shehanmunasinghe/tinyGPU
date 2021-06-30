@@ -55,7 +55,6 @@ parameter STATE_INC_0      = 5;
 parameter STATE_ADD_0      = 6;
 parameter STATE_MUL_0      = 7;
 parameter STATE_MAD_0      = 8;
-parameter STATE_MAD_1      = 18;
 
 
 parameter STATE_SETP_0     = 9;
@@ -231,10 +230,6 @@ module CU (
             end
 
             STATE_MAD_0:begin
-                current_state <= STATE_MAD_1;
-            end
-
-            STATE_MAD_1:begin
                 current_state <= STATE_FETCH;
             end
 
@@ -385,13 +380,6 @@ module CU (
             end
 
             STATE_MAD_0:begin
-                s2	= `MuxD_fromALU; aluc	= `ALUC_MAD; reg_we	= 0; 
-                MRead=0; MWrite=0;
-                incPC	= 0; loadFromI = 0;
-                pstack_push=0; pstack_pop=0; pstack_complement =0; 
-            end
-
-            STATE_MAD_1:begin
                 s2	= `MuxD_fromALU; aluc	= `ALUC_MAD; reg_we	= 1; 
                 MRead=0; MWrite=0;
                 incPC	= 1; loadFromI = 0;

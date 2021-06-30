@@ -54,4 +54,8 @@ module SPCore
     assign addr     = B;
     assign clk_i    = clk && en; //enable/disbale the core
 
+    initial begin
+        $display("Initializing SPCore:  (CORE_ID=%d)",CORE_ID);
+    end
+
 endmodule

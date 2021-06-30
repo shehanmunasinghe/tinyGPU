@@ -49,7 +49,6 @@ parameter STATE_STORE_0    = 3;
 parameter STATE_STORE_1    = 17;
 
 parameter STATE_LOADC_0    = 2;
-parameter STATE_LOADC_1    = 18;
 
 parameter STATE_CLEAR_0    = 4;
 parameter STATE_INC_0      = 5;
@@ -211,9 +210,6 @@ module CU (
             end
 
             STATE_LOADC_0:begin
-                current_state <= STATE_LOADC_1;
-            end
-            STATE_LOADC_1:begin
                 current_state <= STATE_FETCH;
             end
 
@@ -330,12 +326,6 @@ module CU (
 
             STATE_LOADC_0:begin
                 s2	= `MuxD_fromALU; aluc	= `ALUC_CORE_ID; reg_we	= 1;
-                MRead=0; MWrite=0;
-                incPC	= 0; loadFromI = 0;
-                pstack_push=0; pstack_pop=0; pstack_complement =0;
-            end
-            STATE_LOADC_1:begin
-                s2	= `MuxD_fromALU; aluc	= `ALUC_CORE_ID; reg_we	= 0;
                 MRead=0; MWrite=0;
                 incPC	= 1; loadFromI = 0;
                 pstack_push=0; pstack_pop=0; pstack_complement =0;

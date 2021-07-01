@@ -397,7 +397,12 @@ module CU (
             end
 
             STATE_LOADC_0:begin
-                s2	= `MuxD_fromALU; aluc	= `ALUC_CORE_ID; reg_we	= 1;
+                s2	= `MuxD_fromALU; reg_we	= 1;
+                case (operand_op_c)
+                    1 : aluc	= `ALUC_CORE_ID;
+                    2 : aluc	= `ALUC_N_CORES;
+                    default: aluc = `ALUC_X;
+                endcase
                 MRead=0; MWrite=0;
                 // incPC	= 1; loadFromI = 0;
                 pstack_push=0; pstack_pop=0; pstack_complement =0;

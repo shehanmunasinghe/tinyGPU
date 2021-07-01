@@ -37,7 +37,8 @@ module smcore_tb;
 		#(clk_period/2) clk <= !clk;
 	end
     wire memclk;
-    assign memclk=~clk;
+    // assign memclk=~clk;
+    assign memclk=clk;
 
     //Connections to Instruction Memory
     wire  [`INSTMEM_ADDR_WIDTH-1:0]   inst_addr;
@@ -54,15 +55,35 @@ module smcore_tb;
     InstructionMemory IMem(clk,inst_addr,inst);
     SMCore SMCore(inst_addr,inst,DataAddress,DataToWrite,DataToRead,DataMemWrEn, clk, reset);
 
-    //Logging
+    // Dump Variables to file
 	initial begin
-		// $monitor("x = %d, y = %d,z = %d, I = %d, Data out = %d,Address = %d, P = %d, Data in = %d, Enable = %d,Multiplexer = %d",x,y,z,I,data_out,addr,P,data_in,en,s2);
 		$dumpfile("dump.vcd");
 		$dumpvars(0,smcore_tb);
 	end
 
+    // Logging
+    initial begin
+        $monitor("DMem[0]= %d   DMem[1]= %d DMem[2]= %d   DMem[3]= %d \n ",DMem.RAM[0],DMem.RAM[1],DMem.RAM[2],DMem.RAM[3]);
+    end
+
+    // Save memory to file
+    integer mem_dumpfile;
+    initial begin
+        #30000
+        
+        mem_dumpfile = $fopen("MemoryFiles/memory_out.hex","w"); // Change the "w" to "a" to append data to an existing file
+
+        for (integer i = 0;i < 32;i = i + 1)
+            $fdisplay(mem_dumpfile,"%d ",DMem.RAM[i]);
+            // if ((i & 'hF) == 'hF) $fwrite (dumpfile,"%b\n",DMem.RAM[i]);  // New line after every 16 words
+            // else $fwrite ("%b ",DMem.RAM[i]);
+        
+        $finish;
+    end
+
     //Finish after certain time
-    initial
-	#300 $finish;
+    // initial
+	// #850 $finish;
+    // #2500 $finish;
 
 endmodule

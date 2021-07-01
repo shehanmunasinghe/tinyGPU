@@ -61,6 +61,7 @@ parameter STATE_SETP_0     = 9;
 parameter STATE_IF_P_0     = 10;
 parameter STATE_ELSE_P_0   = 11;
 parameter STATE_WHILE_P_0  = 12;
+parameter STATE_WHILE_P_1  = 18;
 parameter STATE_ENDIF_0    = 13;
 
 parameter STATE_NOP_0      = 14;
@@ -70,6 +71,7 @@ module CU (
     input reset,
 
     input [3:0] opcode,
+    input [3:0] operand_op_c,
     input MReady,
 
     input all_mask_true,
@@ -184,7 +186,7 @@ module CU (
             end
 
             STATE_NOP_0:begin
-                current_state <= STATE_NOP_0; //TODO - Exit Simulation?
+                current_state <= STATE_FETCH; //TODO - Exit Simulation?
             end
 
             STATE_STORE_0:begin
@@ -233,6 +235,14 @@ module CU (
                 current_state <= STATE_FETCH;
             end
 
+            STATE_WHILE_P_0:begin
+                current_state <= STATE_WHILE_P_1;
+            end
+
+            STATE_WHILE_P_1:begin
+                current_state <= STATE_FETCH;
+            end
+
             default:begin
                 
             end
@@ -271,7 +281,15 @@ module CU (
             end
 
             STATE_SETP_0:begin
-                s2	= `MuxD_X; aluc	= `ALUC_EQ; reg_we	= 0; //TODO : Consider other SETP operands - ALUC_EQ, ALUC_LT, ALUC_GT, ALUC_NEQ
+                s2	= `MuxD_X; reg_we	= 0; 
+                // op = {EQ, LT, GT, NEQ}	{1,2,3,4} // ALUC_EQ, ALUC_LT, ALUC_GT, ALUC_NEQ
+                case (operand_op_c)
+                    1 : aluc	= `ALUC_EQ;
+                    2 : aluc	= `ALUC_LT;
+                    3 : aluc	= `ALUC_GT;
+                    4 : aluc	= `ALUC_NEQ;
+                    default: aluc = `ALUC_X;
+                endcase
                 MRead=0; MWrite=0;
                 incPC	= 1; loadFromI = 0;
                 pstack_push=0; pstack_pop=0; pstack_complement =0;
@@ -314,7 +332,7 @@ module CU (
             STATE_NOP_0:begin
                 s2	= `MuxD_X; aluc	= `ALUC_X; reg_we	= 0; 
                 MRead=0; MWrite=0;
-                incPC	= 0; loadFromI = 0;
+                incPC	= 1; loadFromI = 0;
                 pstack_push=0; pstack_pop=0; pstack_complement =0;
             end
 
@@ -332,7 +350,7 @@ module CU (
             end
 
             STATE_LOAD_0:begin
-                s2	= `MuxD_X; aluc	= `ALUC_X; reg_we	= 0; 
+                s2	= `MuxD_fromMem; aluc	= `ALUC_X; reg_we	= 1; 
                 MRead=1; MWrite=0;
                 incPC	= 1; loadFromI = 0;
                 pstack_push=0; pstack_pop=0; pstack_complement =0;
@@ -384,6 +402,26 @@ module CU (
                 MRead=0; MWrite=0;
                 incPC	= 1; loadFromI = 0;
                 pstack_push=0; pstack_pop=0; pstack_complement =0; 
+            end
+
+            STATE_WHILE_P_0:begin
+                pstack_push=1; pstack_pop=0; pstack_complement =0;
+                incPC	= 0; loadFromI = 0;
+                s2	= `MuxD_X; aluc	= `ALUC_X; reg_we	= 0;
+                MRead=0; MWrite=0;
+            end
+
+            STATE_WHILE_P_1:begin
+                if (all_mask_true) begin
+                    pstack_push=0; pstack_pop=1; pstack_complement =0;
+                    incPC	= 0; loadFromI = 1;
+                end
+                else begin
+                    pstack_push=0; pstack_pop=0; pstack_complement =0;
+                    incPC	= 1; loadFromI = 0;
+                end
+                s2	= `MuxD_X; aluc	= `ALUC_X; reg_we	= 0;
+                MRead=0; MWrite=0;
             end
 
             default:begin

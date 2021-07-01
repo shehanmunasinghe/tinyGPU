@@ -108,73 +108,69 @@ function [`N_CORES_LOG-1:0] getNextIdx( [`N_CORES_LOG-1:0] idx );
     
 endfunction 
 
-function automatic RW();
-    //R/W
-    addr_mem=addr[idx];
-    if (RW_Operation==0) begin//Read
-        q[idx] = data_from_mem;
-        // wren = 0;
-    end else begin //Write
-        $display("MWrite (Core %d)",idx);
-        data_to_mem = data[idx];
-        // wren = 1;
-    end
-    
-    return 1'b1;
-endfunction
 assign wren = RW_Operation;
 
-//----FSM------
-// assign data_to_mem = data[idx];
-// assign q[idx] = data_from_mem;
+
+always @(posedge MRead or posedge MWrite) begin
+    //Save addr, data into internal registers so they don't change during the operation
+    for (int j=0; j<`N_CORES; j=j+1 ) begin
+        addr[j] = in_addr[j];
+        data[j] = in_data[j];
+    end
+
+    if (MWrite) begin
+            RW_Operation=1;
+    end else begin
+        RW_Operation=0;
+    end
+
+    idx = getFirstIdx();  
+        
+    //if all false readyState=1;
+    if (all_false) begin
+        readyState=1;
+        MReady=1;
+        RW_Operation=0;            
+    end
+    else begin
+        readyState =1'b0;   
+        MReady=0;
+        //R/W
+        // trw = RW();
+    end
+end
 
 always @(posedge clk) begin
 
-    if (MRead || MWrite) begin    
-        
-        //Save addr, data into internal registers so they don't change during the operation
-        for (int j=0; j<`N_CORES; j=j+1 ) begin
-            addr[j] = in_addr[j];
-            data[j] = in_data[j];
-        end
-
-
-        if (MWrite) begin
-            RW_Operation=1;
-        end else begin
-            RW_Operation=0;
-        end
-
-        idx = getFirstIdx();  
-           
-        //if all false readyState=1;
-        if (all_false) begin
-            readyState=1;
-            MReady=1;
-            RW_Operation=0;            
-        end
-        else begin
-            readyState =1'b0;   
-            MReady=0;
-            //R/W
-            trw = RW();
-        end
-    end else  if (!readyState) begin
+    if (!readyState) begin
         idx = getNextIdx(idx);  
 
         //if all false readyState=1;
         if (all_false) begin
             readyState=1;
             MReady=1;
-            RW_Operation=0;
-            
-        end
-        else begin
-            //R/W
-            trw = RW();
+            RW_Operation=0;         
         end
     end
 
+end
+
+always @(*) begin
+    if (!readyState) begin
+        if (!all_false) begin
+            // trw = RW();
+            //R/W
+            addr_mem=addr[idx];
+            if (RW_Operation==0) begin//Read
+                q[idx] = data_from_mem;
+                // wren = 0;
+            end else begin //Write
+                // $display("MWrite (Core %d)",idx);
+                data_to_mem = data[idx];
+                // wren = 1;
+            end
+        end 
+    end  
 end
 
 //----Reset------

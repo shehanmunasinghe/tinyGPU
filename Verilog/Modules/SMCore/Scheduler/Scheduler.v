@@ -65,7 +65,7 @@ module Scheduler (
     PC PC(clk,reset,inst_addr,incPC,loadFromI,I);
     CU CU(
         clk, reset, 
-        opcode,MReady, 
+        opcode,z,MReady, 
         all_mask_true,all_mask_false, 
         
         incPC,loadFromI, s2, aluc, reg_we,

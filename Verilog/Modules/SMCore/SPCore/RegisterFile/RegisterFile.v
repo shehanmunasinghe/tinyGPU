@@ -34,8 +34,10 @@ module RegisterFile (
 		if (Reset)
 			for (i = 1; i < 16; i = i + 1)
 				register[i] <= 0; // reset			
-		else
-			if (RegWE) 	// If write enabled
+		else begin
+			if (RegWE) 	begin// If write enabled
 				register[nD] <= D; 	// write D to reg[nD]
-			
+				// $display("Writing to Register : R[%d]=%d",nD, D);
+			end
+		end
 endmodule

@@ -2,23 +2,6 @@
     `define CU 1
 `endif
 
-//Opcodes
-// `define OPCODE_LOAD     0
-// `define OPCODE_LOADI    1
-// `define OPCODE_LOADC    2
-// `define OPCODE_STORE    3
-// `define OPCODE_CLEAR    4
-// `define OPCODE_INC      5
-// `define OPCODE_ADD      6
-// `define OPCODE_MUL      7
-// `define OPCODE_MAD      8
-// `define OPCODE_SETP     9
-// `define OPCODE_IF_P     10
-// `define OPCODE_ELSE_P   11
-// `define OPCODE_WHILE_P  12
-// `define OPCODE_ENDIF    13
-// `define OPCODE_NOP      14
-
 // Opcodes
 parameter OPCODE_LOAD     = 0;
 parameter OPCODE_LOADI    = 1;
@@ -65,6 +48,9 @@ parameter STATE_WHILE_P_1  = 18;
 parameter STATE_ENDIF_0    = 13;
 
 parameter STATE_NOP_0      = 14;
+
+parameter STATE_END      = 19;
+
 
 module CU (
     input clk, 
@@ -142,8 +128,9 @@ module CU (
                 getCurrentState=STATE_NOP_0;
             end
 
-            // default: begin
-            // end
+            default: begin//End simulation when there are no more valid instructions
+                getCurrentState=STATE_END;
+            end
         endcase
         
         

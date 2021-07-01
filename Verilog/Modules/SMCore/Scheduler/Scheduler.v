@@ -4,8 +4,13 @@
 `ifndef PC
     `include "PC/PC.v"
 `endif
+`ifndef PStack
+    `include "PStack/PStack.v"
+`endif
 
-
+`ifndef Scheduler
+    `define Scheduler 1
+`endif
 
 `ifndef INSTMEM_ADDR_WIDTH
     `define INSTMEM_ADDR_WIDTH 16
@@ -33,38 +38,47 @@ module Scheduler (
     output      MWrite,
     input       MReady,
 
-    output  [`N_CORES-1:0] mask,
-    input   [`N_CORES-1:0] p
-
-    
-    );    //TODO add inputs/outputs to SP-Core, Memory, etc   
-
-
-
+    output      [`N_CORES-1:0] en_mask,
+    input       [`N_CORES-1:0] p_array    
+    );
 
     //
+    wire incPC;
+    wire loadFromI;
+    //
     wire [31:28] opcode;
-
     assign opcode = inst[31:28];
     assign x = inst[27:24];
     assign y = inst[23:20];
     assign z = inst[19:16]; 
-    assign I = inst[15:0];
+    assign I = inst[15:0]; 
 
+    //
+    wire pstack_push;
+    wire pstack_pop;
+    wire pstack_complement;
+    wire all_mask_true;
+    wire all_mask_false;
 
-    //Control Unit
-    wire incPC;
-    wire loadFromI;
-
-    // all_mask_true
-    // all_mask_false
-
-    wire[`INST_LENGTH-1:0] inst;
 
     //modules
     PC PC(clk,reset,inst_addr,incPC,loadFromI,I);
-    CU CU(clk, reset, opcode,incPC,loadFromI);
-
+    CU CU(
+        clk, reset, 
+        opcode,z,MReady, 
+        all_mask_true,all_mask_false, 
+        
+        incPC,loadFromI, s2, aluc, reg_we,
+        MRead,MWrite,
+        pstack_push,pstack_pop,pstack_complement
+    );
+    
+    PStack PStack(
+        clk,reset,
+        p_array,en_mask,
+        pstack_push,pstack_pop,pstack_complement,
+        all_mask_true,all_mask_false
+    );
     
 
 

@@ -8,6 +8,11 @@
     `include "Mux/Mux3x16.v"
 `endif
 
+`ifndef SPCore
+    `define SPCore 1
+`endif
+
+
 module SPCore
     #(parameter CORE_ID=0, parameter N_CORES=1) (
     input               clk,
@@ -48,5 +53,9 @@ module SPCore
     assign data_out = A;
     assign addr     = B;
     assign clk_i    = clk && en; //enable/disbale the core
+
+    initial begin
+        $display("Initializing SPCore:  (CORE_ID=%d)",CORE_ID);
+    end
 
 endmodule

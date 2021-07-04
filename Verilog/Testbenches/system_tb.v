@@ -54,7 +54,7 @@ module smcore_tb;
 
     //Finish simulation when there are no more instructions in the instruction memory
     always @(posedge clk) begin
-        if (UUT.SMCore.Scheduler.CU.current_state == 19) begin //STATE_END
+        if (UUT.SMCore.Scheduler.CU.state == 19) begin //STATE_END
 
             // Save memory to file
             mem_dumpfile = $fopen("MemoryFiles/memory_out.txt","w");

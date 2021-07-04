@@ -77,8 +77,7 @@ module CU (
     output reg pstack_pop,
     output reg pstack_complement );
 
-    reg [5:0]  current_state;
-    reg [5:0]  next_state;
+    reg [5:0]  state;
 
     function automatic [5:0] getCurrentState( [3:0] opcode );
         case (opcode)
@@ -140,31 +139,31 @@ module CU (
     //state switching
     always @(posedge clk) begin
                 
-        case (current_state)      
+        case (state)      
 
             STATE_FETCH:begin
-                current_state <= STATE_DECODE;
+                state <= STATE_DECODE;
                 incPC	<= 0; loadFromI <= 0;
             end 
 
             STATE_DECODE:begin
-                current_state <= getCurrentState(opcode);
+                state <= getCurrentState(opcode);
                 incPC	<= 0; loadFromI <= 0;
             end   
 
             STATE_LOADI_0:begin
-                current_state <= STATE_FETCH;
+                state <= STATE_FETCH;
                 incPC	<= 1; loadFromI <= 0;
             end
 
             STATE_SETP_0:begin
-                current_state <= STATE_FETCH;
+                state <= STATE_FETCH;
                 incPC	<= 1; loadFromI <= 0;
             end
 
 
             STATE_IF_P_0:begin
-                current_state <= STATE_FETCH;
+                state <= STATE_FETCH;
                 if (all_mask_false) begin
                     incPC	<= 0; loadFromI <= 1;
                 end
@@ -175,7 +174,7 @@ module CU (
 
 
             STATE_ELSE_P_0:begin
-                current_state <= STATE_FETCH; 
+                state <= STATE_FETCH; 
                 if (all_mask_true) begin
                     incPC	<= 0; loadFromI <= 1;
                 end
@@ -185,77 +184,77 @@ module CU (
             end
 
             STATE_ENDIF_0:begin
-                  current_state <= STATE_FETCH;
+                  state <= STATE_FETCH;
                   incPC	<= 1; loadFromI <= 0;
             end
 
             STATE_NOP_0:begin
-                current_state <= STATE_FETCH;
+                state <= STATE_FETCH;
                 incPC	<= 1; loadFromI <= 0;
             end
 
             STATE_STORE_0:begin
-                current_state <= STATE_STORE_1;
+                state <= STATE_STORE_1;
             end
 
             STATE_STORE_1:begin
                 if (MReady) begin
-                    current_state <= STATE_FETCH;
+                    state <= STATE_FETCH;
                     incPC	<= 1; loadFromI <= 0;  
                 end  
                 else 
-                    current_state <= STATE_STORE_1;
+                    state <= STATE_STORE_1;
             end
             
             STATE_LOAD_0:begin
-                current_state <= STATE_LOAD_1;
+                state <= STATE_LOAD_1;
             end
 
             STATE_LOAD_1:begin
                 if (MReady) begin
-                    current_state <= STATE_FETCH;
+                    state <= STATE_FETCH;
                     incPC	<= 1; loadFromI <= 0;  
                 end              
                 else 
-                    current_state <= STATE_LOAD_1;
+                    state <= STATE_LOAD_1;
             end
 
             STATE_LOADC_0:begin
-                current_state <= STATE_FETCH;
+                state <= STATE_FETCH;
                 incPC	<= 1; loadFromI <= 0;
             end
 
             STATE_ADD_0:begin
-                current_state <= STATE_FETCH;
+                state <= STATE_FETCH;
                 incPC	<= 1; loadFromI <= 0;
             end
 
             STATE_MUL_0:begin
-                current_state <= STATE_FETCH;
+                state <= STATE_FETCH;
                 incPC	<= 1; loadFromI <= 0;
             end
 
             STATE_INC_0:begin
-                current_state <= STATE_FETCH;
+                state <= STATE_FETCH;
                 incPC	<= 1; loadFromI <= 0;
             end
 
             STATE_CLEAR_0:begin
-                current_state <= STATE_FETCH;
+                state <= STATE_FETCH;
                 incPC	<= 1; loadFromI <= 0;
             end
 
             STATE_MAD_0:begin
-                current_state <= STATE_FETCH;
+                state <= STATE_FETCH;
                 incPC	<= 1; loadFromI <= 0;
             end
 
             STATE_WHILE_P_0:begin
-                current_state <= STATE_WHILE_P_1;
+                state <= STATE_WHILE_P_1;
             end
 
             STATE_WHILE_P_1:begin
-                current_state <= STATE_FETCH;
+                state <= STATE_FETCH;
                 if (all_mask_true) begin
                     incPC	<= 0; loadFromI <= 1;
                 end
@@ -275,7 +274,7 @@ module CU (
 
     // What to do in each state
     always @(*) begin
-        case (current_state)      
+        case (state)      
 
             STATE_FETCH:begin
                 s2	= `MuxD_X; aluc	= `ALUC_X; reg_we	= 0; 
@@ -464,8 +463,7 @@ module CU (
 
     //Reset
     always @(posedge reset) begin
-        current_state = STATE_FETCH;
-        next_state = STATE_DECODE;
+        state = STATE_FETCH;
     end
 
 endmodule

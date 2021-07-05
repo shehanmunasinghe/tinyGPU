@@ -1,10 +1,10 @@
-`include "../constants.v"
+`include "../constants.sv"
 
-`include "../Modules/SMCore/SPCore/ALU/ALU.v"
-`include "../Modules/SMCore/SPCore/RegisterFile/RegisterFile.v"
-`include "../Modules/SMCore/SPCore/Mux/Mux3x16.v"
+`include "../Modules/SMCore/SPCore/ALU/ALU.sv"
+`include "../Modules/SMCore/SPCore/RegisterFile/RegisterFile.sv"
+`include "../Modules/SMCore/SPCore/Mux/Mux3x16.sv"
 
-`include "../Modules/SMCore/SPCore/SPCore.v"
+`include "../Modules/SMCore/SPCore/SPCore.sv"
 
 `timescale 1ns/10ps
 

@@ -1,26 +1,26 @@
-`include "../constants_local.v"
-`include "../constants.v"
+`include "../constants_local.sv"
+`include "../constants.sv"
 
-`include "../Modules/SMCore/SPCore/ALU/ALU.v"
-`include "../Modules/SMCore/SPCore/RegisterFile/RegisterFile.v"
-`include "../Modules/SMCore/SPCore/Mux/Mux3x16.v"
+`include "../Modules/SMCore/SPCore/ALU/ALU.sv"
+`include "../Modules/SMCore/SPCore/RegisterFile/RegisterFile.sv"
+`include "../Modules/SMCore/SPCore/Mux/Mux3x16.sv"
 
-`include "../Modules/SMCore/SPCore/SPCore.v"
-`include "../Modules/SMCore/SPCore/N_SPCores.v"
+`include "../Modules/SMCore/SPCore/SPCore.sv"
+`include "../Modules/SMCore/SPCore/N_SPCores.sv"
 
-`include "../Modules/SMCore/Scheduler/PC/PC.v"
-`include "../Modules/SMCore/Scheduler/CU/CU.v"
-`include "../Modules/SMCore/Scheduler/PStack/PStack.v"
+`include "../Modules/SMCore/Scheduler/PC/PC.sv"
+`include "../Modules/SMCore/Scheduler/CU/CU.sv"
+`include "../Modules/SMCore/Scheduler/PStack/PStack.sv"
 
-`include "../Modules/SMCore/Scheduler/Scheduler.v"
-`include "../Modules/MemoryController/MemoryController_NCores.v"
+`include "../Modules/SMCore/Scheduler/Scheduler.sv"
+`include "../Modules/MemoryController/MemoryController_NCores.sv"
 
-`include "../Modules/SMCore/SMCore.v"
+`include "../Modules/SMCore/SMCore.sv"
 
-`include "../Modules/DataMemory/DataMemory.v"
-`include "../Modules/InstructionMemory/InstructionMemory.v"
+`include "../Modules/DataMemory/DataMemory.sv"
+`include "../Modules/InstructionMemory/InstructionMemory.sv"
 
-`include "../Modules/System.v"
+`include "../Modules/System.sv"
 
 `timescale 1ns/10ps
 

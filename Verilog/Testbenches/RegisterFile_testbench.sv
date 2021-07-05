@@ -1,6 +1,6 @@
 /* `timescale 1ns/10ps
 
-`include "../Modules/SMCore/SPCore/RegisterFile/RegisterFile.v"
+`include "../Modules/SMCore/SPCore/RegisterFile/RegisterFile.sv"
 
 module testbench ();
 

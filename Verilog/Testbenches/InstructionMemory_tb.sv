@@ -1,5 +1,5 @@
-`include "../constants.v"
-`include "../Modules/InstructionMemory/InstructionMemory.v"
+`include "../constants.sv"
+`include "../Modules/InstructionMemory/InstructionMemory.sv"
 
 `timescale 1ns/10ps
 

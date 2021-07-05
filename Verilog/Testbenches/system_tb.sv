@@ -58,7 +58,7 @@ module smcore_tb;
 
             // Save memory to file
             mem_dumpfile = $fopen("MemoryFiles/memory_out.txt","w");
-            for (integer i = 0;i < 32;i = i + 1)
+            for (integer i = 0;i < 65535;i = i + 1)
                 $fdisplay(mem_dumpfile,"%d ",UUT.DMem.RAM[i]); 
 
             //Finish

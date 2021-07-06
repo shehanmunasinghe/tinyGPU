@@ -15,21 +15,27 @@ MEMORY_FILE_DIR = os.path.join(EVAL_SCRIPT_DIR, '../Verilog/Testbenches/MemoryFi
 ##############################################'''
 import numpy as np
 
-L = 10
-M = 20
-N = 10
+print('This program will evaluate the SIMT processor design against a matrix multiplication operation.\n')
+print('C(LxN) = A(LxM) x B(MxN)\nEnter the following parameters to continue...')
 
-Mat_A = np.random.randint(low=0,high=50, size=(L,M))
-Mat_B = np.random.randint(low=0,high=50, size=(M,N))
+L = int(input('L:'))
+M = int(input('M:'))
+N = int(input('N:'))
+
+upper_bound_for_elements = int(input('Upper bound for matrix elements:')) #50
+
+np.random.seed(0)
+Mat_A = np.random.randint(low=0,high=upper_bound_for_elements, size=(L,M))
+Mat_B = np.random.randint(low=0,high=upper_bound_for_elements, size=(M,N))
 Mat_C = np.matmul(Mat_A, Mat_B)
-
-assert (Mat_C > 0).all() and (Mat_C < 2**16).all(), "Array elements large than 16bit"
-assert len(Mat_A.shape)==2 and len(Mat_B.shape)==2, "Only 2D matrices accepted"
 
 print('Mat_C = Mat_A x Mat_B\n')
 print('Mat_A (%dx%d)\n'%(L,M),Mat_A,'\n')
 print('Mat_B (%dx%d)\n'%(M,N),Mat_B,'\n')
 print('Mat_C (%dx%d)\n'%(L,N),Mat_C,'\n')
+
+assert (Mat_C >= 0).all() and (Mat_C < 2**16).all(), "Array elements large than 16bit"
+assert len(Mat_A.shape)==2 and len(Mat_B.shape)==2, "Only 2D matrices accepted"
 
 
 '''##############################################
@@ -76,8 +82,11 @@ status = call("python assembler.py -f sample/8-mat-mul-new/prog.txt -o" +assembl
     Verilog Simulation
 ##############################################'''
 
+N_CORES = int(input('\nEnter the number of processor cores to simulate (N_CORES):')) #32
 
-status = call("iverilog -g2005-sv -o system_tb.vvp system_tb.sv" ,cwd=TESTBENCH_DIR,shell=True)
+# status = call("iverilog -g2005-sv -o system_tb.vvp system_tb.sv" ,cwd=TESTBENCH_DIR,shell=True)
+# status = call("vvp system_tb.vvp" ,cwd=TESTBENCH_DIR,shell=True)
+status = call("iverilog -P%s -g2012 -o system_tb.vvp system_tb.sv"%("system_tb.N_CORES="+str(N_CORES)) ,cwd=TESTBENCH_DIR,shell=True)
 status = call("vvp system_tb.vvp" ,cwd=TESTBENCH_DIR,shell=True)
 
 '''##############################################
@@ -106,3 +115,9 @@ newMat_C = newMat_C.reshape(L, N)
 print('newMat_A (%dx%d)\n'%(L,M),newMat_A,'\n')
 print('newMat_B (%dx%d)\n'%(M,N),newMat_B,'\n')
 print('newMat_C (%dx%d)\n'%(L,N),newMat_C,'\n')
+
+print("\n----Comparison------\n")
+print('Expected Matrix:\t','Mat_C (%dx%d)\n'%(L,N),Mat_C,'\n')
+print('Output from the Processor:\t','newMat_C (%dx%d)\n'%(L,N),newMat_C,'\n')
+
+print("Result:", (Mat_C==newMat_C).all() )

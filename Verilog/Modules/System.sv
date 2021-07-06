@@ -1,10 +1,14 @@
-module System (
+module System 
+#(
+    parameter N_CORES = 4
+)
+(
     input clk,
     input reset );
     
     wire memclk;
-    // assign memclk=~clk;
-    assign memclk=clk;
+    assign memclk=~clk;
+    // assign memclk=clk;
 
     //Connections to Instruction Memory
     wire  [`INSTMEM_ADDR_WIDTH-1:0]   inst_addr;
@@ -19,6 +23,6 @@ module System (
     // Modules
     DataMemory DMem(memclk,DataMemWrEn,DataAddress,DataToWrite,DataToRead);
     InstructionMemory IMem(clk,inst_addr,inst);
-    SMCore SMCore(inst_addr,inst,DataAddress,DataToWrite,DataToRead,DataMemWrEn, clk, reset);
+    SMCore #(N_CORES)SMCore(inst_addr,inst,DataAddress,DataToWrite,DataToRead,DataMemWrEn, clk, reset);
 
 endmodule

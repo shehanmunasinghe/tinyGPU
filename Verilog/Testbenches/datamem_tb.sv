@@ -1,6 +1,6 @@
-`include "../constants.v"
+`include "../constants.sv"
 
-`include "../Modules/DataMemory/DataMemory.v"
+`include "../Modules/DataMemory/DataMemory.sv"
 
 `timescale 1ns/10ps
 

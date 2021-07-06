@@ -1,5 +1,5 @@
-`include "../constants.v"
-`include "../Modules/SMCore/Scheduler/PC/PC.v"
+`include "../constants.sv"
+`include "../Modules/SMCore/Scheduler/PC/PC.sv"
 
 `define CLK_PERIOD 20
 `define INSTMEM_ADDR_WIDTH 16

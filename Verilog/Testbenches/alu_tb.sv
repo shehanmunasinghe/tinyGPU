@@ -1,4 +1,4 @@
-`include "../Modules/SMCore/SPCore/ALU/ALU.v"
+`include "../Modules/SMCore/SPCore/ALU/ALU.sv"
 
 `timescale 1ns/10ps
 module alu_tb;

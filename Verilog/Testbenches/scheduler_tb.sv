@@ -1,11 +1,11 @@
-`include "../constants_local.v"
-`include "../constants.v"
+`include "../constants_local.sv"
+`include "../constants.sv"
 
-`include "../Modules/InstructionMemory/InstructionMemory.v"
-`include "../Modules/SMCore/Scheduler/CU/CU.v"
-`include "../Modules/SMCore/Scheduler/PC/PC.v"
+`include "../Modules/InstructionMemory/InstructionMemory.sv"
+`include "../Modules/SMCore/Scheduler/CU/CU.sv"
+`include "../Modules/SMCore/Scheduler/PC/PC.sv"
 
-`include "../Modules/SMCore/Scheduler/Scheduler.v"
+`include "../Modules/SMCore/Scheduler/Scheduler.sv"
 
 
 

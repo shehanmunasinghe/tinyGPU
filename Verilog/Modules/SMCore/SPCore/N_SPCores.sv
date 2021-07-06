@@ -1,7 +1,3 @@
-`ifndef N_CORES
-    `define N_CORES 8
-`endif
-
 `ifndef SPCore
     `include "SPCore.v"
 `endif
@@ -10,7 +6,11 @@
     `define N_SPCores 1
 `endif
 
-module N_SPCores(
+module N_SPCores
+#(
+    parameter  N_CORES = 4
+)
+(
     //Connections to Each Core
     input    [3:0]          x,
     input    [3:0]          y,
@@ -22,13 +22,13 @@ module N_SPCores(
     input [1:0] s2,   
 
     //N 
-    input [`N_CORES-1:0] en,
-    output [`N_CORES-1:0] p,
+    input [N_CORES-1:0] en,
+    output [N_CORES-1:0] p,
 
     //Connections to Memory
-    output reg [15:0] addr [`N_CORES-1:0],
-    output reg [15:0] data [`N_CORES-1:0],
-    input [15:0]  q[`N_CORES-1:0],
+    output reg [15:0] addr [N_CORES-1:0],
+    output reg [15:0] data [N_CORES-1:0],
+    input [15:0]  q[N_CORES-1:0],
 
     
     input clk, 
@@ -37,8 +37,8 @@ module N_SPCores(
 //Generate for loop to instantiate N times
 genvar i;
 generate 
-    for ( i=0 ;i<`N_CORES ; i=i+1) begin
-        SPCore #(i,`N_CORES) spcore_i(clk,reset,x,y,z,I,p[i],data[i],addr[i],q[i],en[i],reg_we,aluc,s2);
+    for ( i=0 ;i<N_CORES ; i=i+1) begin
+        SPCore #(i,N_CORES) spcore_i(clk,reset,x,y,z,I,p[i],data[i],addr[i],q[i],en[i],reg_we,aluc,s2);
     end
 endgenerate
 

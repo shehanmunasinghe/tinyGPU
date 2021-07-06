@@ -1,8 +1,8 @@
-`include "../constants_local.v"
-`include "../constants.v"
+`include "../constants_local.sv"
+`include "../constants.sv"
 
-`include "../Modules/DataMemory/DataMemory.v"
-`include "../Modules/MemoryController/MemoryController_NCores.v"
+`include "../Modules/DataMemory/DataMemory.sv"
+`include "../Modules/MemoryController/MemoryController_NCores.sv"
 
 `timescale 1ms/10ns
 

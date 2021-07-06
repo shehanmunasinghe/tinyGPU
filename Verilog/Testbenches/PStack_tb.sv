@@ -1,5 +1,5 @@
-`include "../constants.v"
-`include "../Modules/SMCore/Scheduler/PStack/PStack.v"
+`include "../constants.sv"
+`include "../Modules/SMCore/Scheduler/PStack/PStack.sv"
 
 `timescale 1ms/1ns
 

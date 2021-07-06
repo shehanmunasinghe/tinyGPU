@@ -19,7 +19,11 @@
     `define INST_LENGTH 32
 `endif
 
-module Scheduler (
+module Scheduler 
+#(
+    parameter N_CORES = 4
+)
+(
     input                                   clk,
     input                                   reset,
     output [`INSTMEM_ADDR_WIDTH-1:0]    inst_addr,
@@ -38,8 +42,8 @@ module Scheduler (
     output      MWrite,
     input       MReady,
 
-    output      [`N_CORES-1:0] en_mask,
-    input       [`N_CORES-1:0] p_array    
+    output      [N_CORES  -1:0] en_mask,
+    input       [N_CORES  -1:0] p_array    
     );
 
     //
@@ -73,12 +77,13 @@ module Scheduler (
         pstack_push,pstack_pop,pstack_complement
     );
     
-    PStack PStack(
+    PStack #(N_CORES) PStack(
         clk,reset,
         p_array,en_mask,
         pstack_push,pstack_pop,pstack_complement,
         all_mask_true,all_mask_false
     );
+    // defparam PStack.N_CORES = N_CORES;
     
 
 

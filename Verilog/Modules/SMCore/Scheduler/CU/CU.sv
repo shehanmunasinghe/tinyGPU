@@ -251,6 +251,7 @@ module CU (
 
             STATE_WHILE_P_0:begin
                 state <= STATE_WHILE_P_1;
+                incPC	<= 0; loadFromI <= 0;
             end
 
             STATE_WHILE_P_1:begin

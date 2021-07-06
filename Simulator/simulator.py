@@ -89,7 +89,15 @@ class Scheduler():
         self.assembly_code = preprocess_assembly_code(self.assembly_code)
         print(self.assembly_code, '\n')
 
-        self.DataMem = list(map(int,open(f_path+"/data.txt", "r").read().splitlines()))
+        def _hex_to_int(x):
+            return int(x, 16)
+
+        try:
+            self.DataMem = list(map(_hex_to_int,open(f_path+"/data_hex.txt", "r").read().splitlines()))
+        except:
+            self.DataMem = list(map(int,open(f_path+"/data.txt", "r").read().splitlines()))
+        self.DataMem.extend([0 for _ in range(1000)]) ##Extra space in DataMem to store values being written
+        
 
         
         self.SM = SMCores(N_CORES)

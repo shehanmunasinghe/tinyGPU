@@ -3,8 +3,8 @@ module System (
     input reset );
     
     wire memclk;
-    // assign memclk=~clk;
-    assign memclk=clk;
+    assign memclk=~clk;
+    // assign memclk=clk;
 
     //Connections to Instruction Memory
     wire  [`INSTMEM_ADDR_WIDTH-1:0]   inst_addr;

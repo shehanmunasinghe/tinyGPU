@@ -26,20 +26,26 @@
 
 module system_tb #(parameter N_CORES = 4);
 
-    //Filet to save memory content
+    //File to save memory content
     integer  mem_dumpfile;
     
+    //To measure program execution time in clokc cycles
+    integer num_clock_cycles;
+
     //Reset
     reg reset;
     initial begin        
         reset=1; #5 reset=0; //reset PC register at the begining
+        num_clock_cycles = 0;
     end   
 
     //Clock
+    
     parameter clk_period = 20;	
 	reg clk = 1'b0;
 	always begin
 		#(clk_period/2) clk <= !clk;
+        num_clock_cycles +=1;
 	end
 
     // Unit under test
@@ -62,7 +68,7 @@ module system_tb #(parameter N_CORES = 4);
                 $fdisplay(mem_dumpfile,"%d ",UUT.DMem.RAM[i]); 
 
             //Finish
-            $display("------------------------\nEnding Simulation \n------------------------\n");
+            $display("------------------------\nEnding Simulation (Time Spent = %d clock cycles) \n------------------------\n",num_clock_cycles);
             $finish;
         end
     end

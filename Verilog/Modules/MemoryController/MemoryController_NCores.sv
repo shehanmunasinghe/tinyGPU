@@ -1,13 +1,13 @@
-`ifndef INC_CONSTANTS
-    `define N_CORES_LOG 2
-    `define N_CORES 4//2**N_CORES_LOG  
-`endif
-
 `ifndef MemoryController
     `define MemoryController 1
 `endif
 
-module MemoryController(
+module MemoryController
+#(
+    parameter  N_CORES = 4 //2**N_CORES_LOG  
+    // parameter  N_CORES_LOG = 2;
+)
+(
     input clk, 
     input reset, //Active high async reset
 
@@ -16,10 +16,10 @@ module MemoryController(
     output reg MReady,
 
     //Connections to Each Core
-    input [`N_CORES-1:0] en,
-    input [15:0] in_addr [`N_CORES-1:0],
-    input [15:0] in_data [`N_CORES-1:0],
-    output reg [15:0]  q[`N_CORES-1:0],
+    input [N_CORES  -1:0] en,
+    input [15:0] in_addr [N_CORES  -1:0],
+    input [15:0] in_data [N_CORES  -1:0],
+    output reg [15:0]  q[N_CORES  -1:0],
 
     //Connections to Memory 
     output reg  [15:0]  data_to_mem,
@@ -29,19 +29,21 @@ module MemoryController(
     
 );
 
+parameter N_CORES_LOG = $clog2(N_CORES);
+
 // Registers to keep in_addr and in_data unchanged during Read/Write
-reg [15:0] addr [`N_CORES-1:0];
-reg [15:0] data [`N_CORES-1:0];
+reg [15:0] addr [N_CORES  -1:0];
+reg [15:0] data [N_CORES  -1:0];
 
 //----Internal constants----------
 
 //----Internal variables----------
 // reg [n_states-1:0] current_state;
-reg [`N_CORES_LOG-1:0]  idx=0; reg readyState=1'b1;
-reg [`N_CORES_LOG:0] next_state=0;//next_state[`N_CORES_LOG]=readyState;
+reg [N_CORES_LOG  -1:0]  idx=0; reg readyState=1'b1;
+reg [N_CORES_LOG  :0] next_state=0;//next_state[N_CORES_LOG  ]=readyState;
 
 reg all_false;
-reg [`N_CORES_LOG-1:0] next_idx=0;
+reg [N_CORES_LOG  -1:0] next_idx=0;
 
 reg trw;
 reg readyStateNext=0;
@@ -50,17 +52,17 @@ reg RW_Operation = 0;//0-Read,W-Write;
 
 //--------Functions------
 
-function [`N_CORES_LOG-1:0] getFirstIdx();
+function [N_CORES_LOG  -1:0] getFirstIdx();
 
     integer i; 
-    reg [`N_CORES_LOG-1:0] next_idx;
+    reg [N_CORES_LOG  -1:0] next_idx;
     // reg all_false;
     integer start;
 
     begin
         all_false=1'b1;
         // $display("start=%d",start);
-        for (i = 0;i<`N_CORES ; i=i+1) begin
+        for (i = 0;i<N_CORES   ; i=i+1) begin
             // $display("en[%01d]=%b",i,en[i]);
             if (en[i]) begin                
                 if (all_false) begin
@@ -79,10 +81,10 @@ function [`N_CORES_LOG-1:0] getFirstIdx();
     
 endfunction 
 
-function [`N_CORES_LOG-1:0] getNextIdx( [`N_CORES_LOG-1:0] idx );
+function [N_CORES_LOG  -1:0] getNextIdx( [N_CORES_LOG  -1:0] idx );
 
     integer i; 
-    reg [`N_CORES_LOG-1:0] next_idx;
+    reg [N_CORES_LOG  -1:0] next_idx;
     // reg all_false;
     integer start;
 
@@ -90,7 +92,7 @@ function [`N_CORES_LOG-1:0] getNextIdx( [`N_CORES_LOG-1:0] idx );
         start=idx+1;
         all_false=1'b1;
         // $display("start=%d",start);
-        for (i = start;i<`N_CORES ; i=i+1) begin
+        for (i = start;i<N_CORES   ; i=i+1) begin
             // $display("en[%01d]=%b",i,en[i]);
             if (en[i]) begin                
                 if (all_false) begin
@@ -113,7 +115,7 @@ assign wren = RW_Operation;
 
 always @(posedge MRead or posedge MWrite) begin
     //Save addr, data into internal registers so they don't change during the operation
-    for (int j=0; j<`N_CORES; j=j+1 ) begin
+    for (int j=0; j<N_CORES  ; j=j+1 ) begin
         addr[j] = in_addr[j];
         data[j] = in_data[j];
     end
@@ -177,7 +179,7 @@ end
 always @(posedge reset) begin
     MReady = 1;
     readyState = 1;
-    next_state[`N_CORES_LOG]=readyState;
+    next_state[N_CORES_LOG  ]=readyState;
 end
 
 

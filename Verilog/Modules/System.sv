@@ -1,4 +1,8 @@
-module System (
+module System 
+#(
+    parameter N_CORES = 4
+)
+(
     input clk,
     input reset );
     
@@ -19,6 +23,6 @@ module System (
     // Modules
     DataMemory DMem(memclk,DataMemWrEn,DataAddress,DataToWrite,DataToRead);
     InstructionMemory IMem(clk,inst_addr,inst);
-    SMCore SMCore(inst_addr,inst,DataAddress,DataToWrite,DataToRead,DataMemWrEn, clk, reset);
+    SMCore #(N_CORES)SMCore(inst_addr,inst,DataAddress,DataToWrite,DataToRead,DataMemWrEn, clk, reset);
 
 endmodule

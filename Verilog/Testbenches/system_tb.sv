@@ -24,7 +24,7 @@
 
 `timescale 1ns/10ps
 
-module smcore_tb;
+module system_tb #(parameter N_CORES = 4);
 
     //Filet to save memory content
     integer  mem_dumpfile;
@@ -43,13 +43,13 @@ module smcore_tb;
 	end
 
     // Unit under test
-    System UUT(clk, reset);
-    
+    System #(N_CORES) UUT(clk, reset);
+    // defparam SMCore.N_CORES = N_CORES;
 
     // Dump Variables to file
 	initial begin
 		$dumpfile("dump.vcd");
-		$dumpvars(0,smcore_tb);
+		$dumpvars(0,system_tb);
 	end
 
     //Finish simulation when there are no more instructions in the instruction memory

@@ -1,16 +1,19 @@
 `ifndef INC_CONSTANTS
 	`define STACK_DEPTH 3 //2^3 = 8 locations in mask_stack
-	`define N_CORES 4
 `endif
 
 `ifndef PStack
     `define PStack 1
 `endif
-module PStack (
+module PStack 
+#(
+	parameter  N_CORES = 4
+)
+(
 	input                    clk,
 	input                    reset,
-	input      [`N_CORES - 1:0] d_in, 	//input to the mask_stack
-	output reg [`N_CORES - 1:0] tos, 	//top of mask_stack
+	input      [N_CORES   - 1:0] d_in, 	//input to the mask_stack
+	output reg [N_CORES   - 1:0] tos, 	//top of mask_stack
 	input                    push,
 	input                    pop,
     input                    comp,
@@ -20,13 +23,13 @@ module PStack (
 
 
 	reg [`STACK_DEPTH - 1:0] ptr;
-	reg [`N_CORES - 1:0] mask_stack [((1 << `STACK_DEPTH) - 1) :0];
-	reg [`N_CORES - 1:0] dont_care_stack [((1 << `STACK_DEPTH) - 1) :0];
+	reg [N_CORES   - 1:0] mask_stack [((1 << `STACK_DEPTH) - 1) :0];
+	reg [N_CORES   - 1:0] dont_care_stack [((1 << `STACK_DEPTH) - 1) :0];
 
 	always @(posedge clk or posedge reset) begin
 		if (reset) begin
 			ptr = 0;
-            mask_stack[ptr] = ((1 << `N_CORES) - 1);
+            mask_stack[ptr] = ((1 << N_CORES  ) - 1);
 			dont_care_stack[ptr] = 0;
         end
 		else if (push) begin
@@ -47,8 +50,8 @@ module PStack (
 
 
 	always @(*) begin
-		// if (mask_stack[ptr] == ((1 << `N_CORES) - 1) ) 
-		if ((mask_stack[ptr]|dont_care_stack[ptr]) == ((1 << `N_CORES) - 1) )
+		// if (mask_stack[ptr] == ((1 << N_CORES  ) - 1) ) 
+		if ((mask_stack[ptr]|dont_care_stack[ptr]) == ((1 << N_CORES  ) - 1) )
 			all_true = 1;
 		else
 			all_true = 0;

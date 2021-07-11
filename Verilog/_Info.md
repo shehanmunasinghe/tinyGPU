@@ -15,18 +15,15 @@ The inidividual RTL modules developed for this project are as follows and they a
 3. Instruction Memory
 4. Memory Controller
 
-### Register File
 
-![regfile](../docs/images/regfile.png "regfile")
+
+### Scheduler
+![Scheduler](../docs/images/Scheduler.png "Scheduler")
+
+### SPCore Bank
+
+![n_spcore](../docs/images/n_spcore.png "n_spcore")
 
 ### SPCore
 
 ![SPCore](../docs/images/SPCore.png "SPCore")
-
-
-### Scheduler
-
-### Control Unit
-
-
-

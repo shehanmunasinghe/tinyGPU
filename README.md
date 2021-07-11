@@ -1,10 +1,11 @@
 # tinyGPU
 
-Designing a **SIMT (Single Instruction Multiple Thread) Processor** under **EN3030 Circuits and Systems** module.
+Designing a **SIMT (Single Instruction Multiple Thread) Processor** for 2D Matrix Multiplication, under the **EN3030 Circuits and Systems** module.
 
 This repository contains
 * Python programs for simulation of programs written in assembly language of the proposed Instruction Set Architecture (ISA)
 * SystemVerilog implementation of the hardware modules
+* Evaluation script for validating the design against a 2D matrix multiplication task
 
 
 ## Processor Design

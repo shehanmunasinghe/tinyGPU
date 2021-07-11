@@ -2,22 +2,41 @@
 
 Designing a **SIMT (Single Instruction Multiple Thread) Processor** under **EN3030 Circuits and Systems** module.
 
-The design is implemented in Verilog HDL and the assembly programs are simulated in Python.
-
-## Overview
-
-![regfile](docs/images/blocks.png "blocks")
-
-The ISA and Datapath can be found in the following [Google Sheet](https://docs.google.com/spreadsheets/d/1yPLuM_zCF1IhVchUTxWPucX_xoV9kUbVz8zwBgPuInc/edit#gid=853810905)
-## ISA
-//TODO
+This repository contains
+* Python programs for simulation of programs written in assembly language of the proposed Instruction Set Architecture (ISA)
+* SystemVerilog implementation of the hardware modules
 
 
-## Datapath
+## Processor Design
 
-//TODO\
-
-The information about the [RTL Modules](./Verilog/README.md)  can be found here
-
+### Instruction Set Architecture (ISA)
+![ISA](docs/images/ISA.png "ISA")
 
 
+### Datapath
+
+![datapath](docs/images/datapath.png "datapath")
+
+### RTL Modules
+
+The information about the RTL Modules can be found [here](./Verilog/_Info.md).
+
+
+## How to Run the Project
+
+### Requirements
+
+* Python 3
+    * Numpy
+* IcarusVerilog
+
+### ISA Simulation
+
+Find instructions [here](./Simulator/_INSTRUCTIONS.md).
+
+### SystemVerilog Simulation
+Find instructions [here](./Verilog/_INSTRUCTIONS.md).
+
+### Evaluation
+
+    python3 Evaluation/evaluation_script.py

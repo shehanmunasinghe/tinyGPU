@@ -1,36 +1,9 @@
-# RTL Modules
-
-The inidividual RTL modules developed for this project are as follows and they also equip with corresponding testbenches.
-
-1. SM Core
-	1. Scheduler
-		1. [Control Unit](./Verilog/Modules/SMCore/Scheduler/CU/README.md)
-		2. Program Counter
-		3. PStack
-	1. SP Core 
-		1.  ALU
-		2.  Multiplexer
-		3.  Register
-2. Data Memory
-3. Instruction Memory
-4. Memory Controller
-
-## Register File
-
-![regfile](../docs/images/regfile.png "regfile")
-
-### SPCore
-
-![SPCore](../docs/images/SPCore.png "SPCore")
-
-
-#### Scheduler
-
-##### Control Unit
-
-
-
 # Instructions for compiling and simulation
+
+## Setup
+
+* Make a copy of [./constants_local-copy.sv ](./constants_local-copy.sv)  and rename it as constants_local.sv
+* Edit the definitions for INSTMEM_FILEPATH and DATAMEM_FILEPATH, giving the paths for .txt files containing the Instruction Memory binary and Data Memory hex content.
 
 ## Instructions for using Icarus Verilog
 
@@ -50,7 +23,7 @@ Or Single Line Command (Windows Powershell)
 Displaying the Waveform - open the module1.vcd file using Scansion or GTKwave or any other VCD viewer
 
 
-## Instructions for using Questa Sim
+## Instructions for using Questa Sim (Experimental)
 
 Compilation
 

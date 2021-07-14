@@ -15,7 +15,7 @@ MEMORY_FILE_DIR = os.path.join(EVAL_SCRIPT_DIR, '../Verilog/Testbenches/MemoryFi
 ##############################################'''
 import numpy as np
 
-print('This program will evaluate the SIMT processor design against a matrix multiplication operation.\n')
+print('This program will evaluate the processor design against a matrix multiplication operation.\n')
 print('C(LxN) = A(LxM) x B(MxN)\nEnter the following parameters to continue...')
 
 L = int(input('L:'))

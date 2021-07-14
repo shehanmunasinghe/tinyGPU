@@ -1,6 +1,6 @@
-# tinyGPU
+# Predicated-SIMD Processor
 
-Designing a **SIMT (Single Instruction Multiple Thread) Processor** for 2D Matrix Multiplication, under the **EN3030 Circuits and Systems** module.
+Designing a **Predicated-SIMD(Single Instruction Multiple Data) Processor** for 2D Matrix Multiplication, under the **EN3030 Circuits and Systems** module.
 
 This repository contains
 * Python programs for simulation of programs written in assembly language of the proposed Instruction Set Architecture (ISA)
